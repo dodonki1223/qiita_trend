@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     qiita_trend (0.1.0)
+      nokogiri (~> 1.9)
 
 GEM
   remote: https://rubygems.org/
@@ -59,10 +60,9 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
-  nokogiri (~> 1.9)
   qiita_trend!
   rake (~> 10.0)
-  rspec (>= 3.8.0)
+  rspec (~> 3.0)
   rubocop (~> 0.62)
   rubocop-rspec
   vcr
