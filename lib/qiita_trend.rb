@@ -6,6 +6,8 @@ require 'open-uri'
 require 'json'
 
 module QiitaTrend
+  # トレンドクラス
+  # Qiitaのトレンド機能を提供する
   class Trend
     attr_reader :html, :trends_data
 
@@ -34,7 +36,7 @@ module QiitaTrend
         value << result
       end
     end
-    
+
     def new_items
       items.select do |trend|
         trend['is_new_arrival'] == true

@@ -1,0 +1,64 @@
+# Rspec用のrubocopの読み込み
+require: rubocop-rspec
+
+AllCops:
+  # Rubyのバージョン指定
+  TargetRubyVersion: 2.3.7
+
+# 日本語でのコメントを許可
+AsciiComments:
+  Enabled: false
+
+# メソッドの引数の文字数を２文字以上とする
+Naming/UncommunicativeMethodParamName:
+  MinNameLength: 2
+
+# １行の長さのMAXを150文字とする
+Metrics/LineLength:
+  Max: 150
+
+# メソッドの行数をコメントを除いて５０行までとする
+MethodLength:
+  CountComments: true
+  Max: 50
+
+# if文の実行結果が４行以上の場合にチェックするように設定する
+GuardClause:
+  MinBodyLength: 4
+
+IfUnlessModifier:
+  Enabled: false
+
+# メソッドの複雑度を７→１８に変更
+# ※複雑度の計算方法は「https://github.com/bbatsov/rubocop/blob/master/lib/rubocop/cop/metrics/perceived_complexity.rb」
+Metrics/PerceivedComplexity:
+  Max: 18
+
+# メソッドの循環的複雑度を６→１５に変更
+# ※循環的複雑度の計算方法は「https://github.com/bbatsov/rubocop/blob/master/lib/rubocop/cop/metrics/cyclomatic_complexity.rb」
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+# メソッドのABC sizeチェックの合計ポイントを１５→４０に変更
+# ABC sizeチェックの計算方法は「https://github.com/rubocop-hq/rubocop/blob/master/lib/rubocop/cop/metrics/abc_size.rb」
+Metrics/AbcSize:
+  Max: 40
+
+# ブロックの長さの制限をRspecは除外する
+# ※RspecはDSLのため１つのブロックで行数が増えてしまうのはしょうがないため
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - 'spec/**/*'
+
+# クラスの行数（コメントは除いて）を100→150に変更
+Metrics/ClassLength:
+  Max: 150
+
+# モジュールの行数（コメントは除いて）を100→150に変更
+Metrics/ModuleLength:
+  Max: 150
+
+# Rspec句のitの行数を５→１０に変更
+RSpec/ExampleLength:
+  Max: 10
