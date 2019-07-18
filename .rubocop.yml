@@ -5,6 +5,10 @@ AllCops:
   # Rubyのバージョン指定
   TargetRubyVersion: 2.3.7
 
+# クラス名Moduleの説明をなしでもOKとする
+Style/Documentation:
+  Enabled: false
+
 # 日本語でのコメントを許可
 AsciiComments:
   Enabled: false
