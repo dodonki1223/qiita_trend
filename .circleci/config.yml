@@ -7,7 +7,9 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/ruby:2.6.0-node-browsers
+        environment:
+          BUNDLER_VERSION: 2.0.1
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -26,10 +28,23 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      # install Bundler!
+      # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
       - run:
-          name: install dependencies
+          name: install bundler
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            sudo gem update --system
+            sudo gem uninstall bundler
+            sudo rm /usr/local/bin/bundle
+            sudo rm /usr/local/bin/bundler
+            sudo gem install bundler
+
+      # install gem!
+      - run:
+          name: install gem
+          command: |
+            # jobs=4は並列処理をして高速化するための設定（４つのjobで実行するって意味）
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
 
       - save_cache:
           paths:
@@ -41,15 +56,19 @@ jobs:
           name: run tests
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             bundle exec rspec \
               --format progress \
               --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
               --format progress \
               $TEST_FILES
+
+      # run rubocop!
+      - run:
+          name: run rubocop
+          command: |
+            bundle exec rubocop
 
       # collect reports
       - store_test_results:
