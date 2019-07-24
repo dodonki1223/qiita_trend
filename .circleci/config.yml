@@ -20,14 +20,12 @@ jobs:
 
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
       # install Bundler!
       # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
       - run:
@@ -38,19 +36,21 @@ jobs:
             sudo rm /usr/local/bin/bundle
             sudo rm /usr/local/bin/bundler
             sudo gem install bundler
-
       # install gem!
       - run:
           name: install gem
           command: |
             # jobs=4は並列処理をして高速化するための設定（４つのjobで実行するって意味）
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
-
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
+      # run rubocop!
+      - run:
+          name: run rubocop
+          command: |
+            bundle exec rubocop
       # run tests!
       - run:
           name: run tests
@@ -63,16 +63,20 @@ jobs:
               --out /tmp/test-results/rspec.xml \
               --format progress \
               $TEST_FILES
-
-      # run rubocop!
-      - run:
-          name: run rubocop
-          command: |
-            bundle exec rubocop
-
       # collect reports
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+      # deploy RubyGems
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              mkdir ~/.gem
+              curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
+              git config user.name dodonki1223
+              git config user.email $RUBYGEMS_EMAIL
+              bundle exec rake build
+              bundle exec rake release
+            fi
