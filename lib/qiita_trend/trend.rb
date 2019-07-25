@@ -5,19 +5,12 @@ require 'open-uri'
 require 'json'
 
 module QiitaTrend
-  # Qiitaトレンドクラス
-  # Qiitaのトレンド機能を提供する
   class Trend
     attr_reader :data
 
-    QIITA_URI = 'https://qiita.com/'
-    USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
-
-    def initialize
-      html = URI.parse(QIITA_URI)
-      html = html.read('User-Agent' => USER_AGENT)
-      char = html.charset
-      parsed_html = Nokogiri::HTML.parse(html, nil, char)
+    def initialize(ua = 'Mac Safari')
+      page = QiitaTrend::Page.new(ua)
+      parsed_html = Nokogiri::HTML.parse(page.html)
 
       trends_data = JSON.parse(parsed_html.xpath('//div[@data-hyperapp-app="Trend"]')[0]['data-hyperapp-props'])
       @data = trends_data['trend']['edges']
@@ -31,7 +24,7 @@ module QiitaTrend
         result['user_image'] = trend['node']['author']['profileImageUrl']
         result['likes_count'] = trend['node']['likesCount']
         result['is_new_arrival'] = trend['isNewArrival']
-        result['article'] = "#{QIITA_URI}#{trend['node']['author']['urlName']}/items/#{trend['node']['uuid']}"
+        result['article'] = "#{Page::QIITA_URI}#{trend['node']['author']['urlName']}/items/#{trend['node']['uuid']}"
         value << result
       end
     end
