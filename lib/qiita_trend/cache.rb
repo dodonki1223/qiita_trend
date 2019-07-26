@@ -17,23 +17,16 @@ module QiitaTrend
 
     # キャッシュファイルを作成する
     #   キャッシュフォルダが存在しない時は作成する
-    #   シリアライズしたものをキャッシュファイルとして保存する
     def create_cache(content)
       Dir.mkdir(@directory) unless Dir.exist?(@directory)
       File.open(@full_path, 'wb') do |file|
-        serialize_file = Marshal.dump(content)
-        # 改行なしで書き込む
-        # ※putsを使用した場合、末尾に改行がつく
-        file.print(serialize_file)
+        file.print(content)
       end
     end
 
     # キャッシュファイルを読み込む
-    #   シリアライズされたキャッシュファイルをデシリアライズして読み込む
     def load_cache
-      deserialize_file = ''
-      File.open(@full_path, 'r') { |file| deserialize_file = file.read }
-      Marshal.load(deserialize_file)
+      File.open(@full_path, 'r', &:read)
     end
 
     # キャッシュファイルが存在するか？
