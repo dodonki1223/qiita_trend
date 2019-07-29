@@ -16,7 +16,7 @@ module QiitaTrend
 
     def create_html(ua)
       # キャッシュが存在する場合はキャッシュから取得
-      cache = QiitaTrend::Cache.new('trend_cache.html')
+      cache = QiitaTrend::Cache.new(target_trend + '.html')
       return cache.load_cache if cache.cached?
 
       # キャッシュが存在しない場合はキャッシュを作成しページ情報を取得する
@@ -26,6 +26,16 @@ module QiitaTrend
       cache.create_cache(page.body)
 
       page.body
+    end
+
+    def target_trend
+      if Time.now.hour >= 5 && Time.now.hour < 17
+        Date.today.strftime('%Y%m%d') + '05'
+      elsif Time.now.hour >= 17
+        Date.today.strftime('%Y%m%d') + '17'
+      elsif Time.now.hour < 5
+        (Date.today - 1).strftime('%Y%m%d') + '17'
+      end
     end
   end
 end
