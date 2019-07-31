@@ -6,14 +6,20 @@ module QiitaTrend
   class Page
     attr_reader :target, :html
 
+    QIITA_URI = 'https://qiita.com/'
     QIITA_LOGIN_URI = 'https://qiita.com/login'
 
-    def initialize(ua = 'Mac Safari', trend_type = QiitaTrend::TrendType::DAILY)
-      @target = QiitaTrend::Target.new(trend_type)
+    def initialize(trend_type = TrendType::DAILY, date = nil)
+      @target = Target.new(trend_type, date)
+      cache = Cache.new(target.cache)
+
+      # 指定されたキャッシュファイルが存在しない場合は処理を終了
+      unless date.nil?
+        raise StandardError, '指定されたキャッシュファイルが存在しません' unless cache.cached?
+      end
 
       # キャッシュが存在する場合はキャッシュから取得
-      cache = QiitaTrend::Cache.new(target.cache)
-      @html = cache.cached? ? cache.load_cache : create_html(ua, @target)
+      @html = cache.cached? ? cache.load_cache : create_html(@target)
 
       # キャッシュが存在しない時はキャッシュを作成する
       cache.create_cache(@html) unless cache.cached?
@@ -21,9 +27,9 @@ module QiitaTrend
 
     private
 
-    def create_html(ua, target)
+    def create_html(target)
       agent = Mechanize.new
-      agent.user_agent_alias = ua
+      agent.user_agent_alias = 'Mac Safari'
 
       # ログイン処理
       if target.need_login
