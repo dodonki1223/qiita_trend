@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'qiita_trend'
+require 'support/cache_helper'
 require 'webmock/rspec'
 require 'vcr'
 

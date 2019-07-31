@@ -4,25 +4,25 @@ require 'mechanize'
 
 module QiitaTrend
   class Page
-    attr_reader :target, :html
+    attr_reader :target, :html, :cache
 
     QIITA_URI = 'https://qiita.com/'
     QIITA_LOGIN_URI = 'https://qiita.com/login'
 
     def initialize(trend_type = TrendType::DAILY, date = nil)
       @target = Target.new(trend_type, date)
-      cache = Cache.new(target.cache)
+      @cache = Cache.new(target.cache)
 
       # 指定されたキャッシュファイルが存在しない場合は処理を終了
       unless date.nil?
-        raise StandardError, '指定されたキャッシュファイルが存在しません' unless cache.cached?
+        raise StandardError, '指定されたキャッシュファイルが存在しません' unless @cache.cached?
       end
 
       # キャッシュが存在する場合はキャッシュから取得
-      @html = cache.cached? ? cache.load_cache : create_html(@target)
+      @html = @cache.cached? ? @cache.load_cache : create_html(@target)
 
       # キャッシュが存在しない時はキャッシュを作成する
-      cache.create_cache(@html) unless cache.cached?
+      @cache.create_cache(@html) unless @cache.cached?
     end
 
     private
