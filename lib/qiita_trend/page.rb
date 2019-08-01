@@ -11,7 +11,8 @@ module QiitaTrend
 
     def initialize(trend_type = TrendType::DAILY, date = nil)
       @target = Target.new(trend_type, date)
-      @cache = Cache.new(target.cache)
+      save_cache_directory = QiitaTrend.configuration.cache_directory.nil? ? Cache::DEFAULT_CACHE_DIRECTORY : QiitaTrend.configuration.cache_directory
+      @cache = Cache.new(target.cache, save_cache_directory)
 
       # 指定されたキャッシュファイルが存在しない場合は処理を終了
       unless date.nil?

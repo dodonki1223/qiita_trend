@@ -12,11 +12,12 @@ module QiitaTrend
   end
 
   class Configuration
-    attr_accessor :user_name, :password
+    attr_accessor :user_name, :password, :cache_directory
 
     def initialize
-      @user_name = 'set user name'
-      @password = 'set password'
+      @user_name = nil
+      @password = nil
+      @cache_directory = nil
     end
   end
 end
