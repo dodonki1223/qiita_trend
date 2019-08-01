@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe QiitaTrend::Trend do
+  include CacheHelper
+
   let(:trend) do
     VCR.use_cassette 'trend' do
+      create_cache_mock(false, QiitaTrend::Target.new)
       described_class.new
     end
   end

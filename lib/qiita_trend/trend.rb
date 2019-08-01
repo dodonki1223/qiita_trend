@@ -8,8 +8,8 @@ module QiitaTrend
   class Trend
     attr_reader :data
 
-    def initialize(ua = 'Mac Safari')
-      page = QiitaTrend::Page.new(ua)
+    def initialize(trend_type = TrendType::DAILY, date = nil)
+      page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
 
       trends_data = JSON.parse(parsed_html.xpath('//div[@data-hyperapp-app="Trend"]')[0]['data-hyperapp-props'])

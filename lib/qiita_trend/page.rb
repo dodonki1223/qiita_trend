@@ -4,38 +4,43 @@ require 'mechanize'
 
 module QiitaTrend
   class Page
-    attr_reader :html
+    attr_reader :target, :html, :cache
 
     QIITA_URI = 'https://qiita.com/'
+    QIITA_LOGIN_URI = 'https://qiita.com/login'
 
-    def initialize(ua)
-      @html = create_html(ua)
+    def initialize(trend_type = TrendType::DAILY, date = nil)
+      @target = Target.new(trend_type, date)
+      @cache = Cache.new(target.cache)
+
+      # 指定されたキャッシュファイルが存在しない場合は処理を終了
+      unless date.nil?
+        raise StandardError, '指定されたキャッシュファイルが存在しません' unless @cache.cached?
+      end
+
+      # キャッシュが存在する場合はキャッシュから取得
+      @html = @cache.cached? ? @cache.load_cache : create_html(@target)
+
+      # キャッシュが存在しない時はキャッシュを作成する
+      @cache.create_cache(@html) unless @cache.cached?
     end
 
     private
 
-    def create_html(ua)
-      # キャッシュが存在する場合はキャッシュから取得
-      cache = QiitaTrend::Cache.new(target_trend + '.html')
-      return cache.load_cache if cache.cached?
-
-      # キャッシュが存在しない場合はキャッシュを作成しページ情報を取得する
+    def create_html(target)
       agent = Mechanize.new
-      agent.user_agent_alias = ua
-      page = agent.get QIITA_URI
-      cache.create_cache(page.body)
+      agent.user_agent_alias = 'Mac Safari'
 
-      page.body
-    end
-
-    def target_trend
-      if Time.now.hour >= 5 && Time.now.hour < 17
-        Date.today.strftime('%Y%m%d') + '05'
-      elsif Time.now.hour >= 17
-        Date.today.strftime('%Y%m%d') + '17'
-      elsif Time.now.hour < 5
-        (Date.today - 1).strftime('%Y%m%d') + '17'
+      # ログイン処理
+      if target.need_login
+        form = agent.get(QIITA_LOGIN_URI).forms.first
+        form['identity'] = QiitaTrend.configuration.user_name
+        form['password'] = QiitaTrend.configuration.password
+        logged_page = form.submit
+        raise StandardError, 'ログインに失敗しました（ユーザー名とパスワードでログインできることを確認してください）' if logged_page.title.include?('Login')
       end
+
+      agent.get(target.url).body
     end
   end
 end
