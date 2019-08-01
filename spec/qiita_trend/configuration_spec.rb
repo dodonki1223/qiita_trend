@@ -9,6 +9,16 @@ RSpec.describe QiitaTrend::Configuration do
     end
   end
 
+  # afterで空にしてあげないと設定が追加された状態になってしまうため
+  # テスト後は初期値にする
+  after do
+    QiitaTrend.configure do |config|
+      config.user_name = nil
+      config.password = nil
+      config.cache_directory = nil
+    end
+  end
+
   let(:config) { QiitaTrend.configuration }
 
   it 'ユーザー名がセットされていること' do
