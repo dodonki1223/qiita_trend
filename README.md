@@ -3,7 +3,9 @@
 
 [![Gem Version](https://badge.fury.io/rb/qiita_trend.svg)](https://badge.fury.io/rb/qiita_trend) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/dodonki1223/qiita_trend/blob/master/LICENSE.txt) [![CircleCI](https://circleci.com/gh/dodonki1223/qiita_trend/tree/master.svg?style=svg)](https://circleci.com/gh/dodonki1223/qiita_trend/tree/master)
 
-Qiitaのトレンドを５秒で取得することができます
+Qiitaのトレンドを10秒で取得することができます
+
+![qiita_trend_sample](qiita_trend.gif)
 
 ## 概要
 
