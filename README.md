@@ -33,9 +33,9 @@ Or install it yourself as:
 
 ## 使用方法
 
-### QiitaのDailyのトレンドを５秒で取得する
+### QiitaのDailyのトレンドを10秒で取得する
 
-ターミナルでコマンド`gem install qiita_trend`、`ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"`を実行することでQiitaのトレンドを５秒で取得できます  
+ターミナルでコマンド`gem install qiita_trend`、`ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"`を実行することでQiitaのトレンドを10秒で取得できます  
 **2019年8月2日08時00分頃に実行した結果です**
 
 ```shell
@@ -51,7 +51,7 @@ $ ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"
 [{"title"=>"「ソースコード全部読まなきゃ病」と闘う方法",
   "user_name"=>"guitar_char",
   "user_image"=>
-   "https://qiita-image-store.s3.amazonaws.com/0/114709/profile-images/1473712681",
+   "https://qiita-image-store.s3.amazonaws.com/0/114709/profile-,images/1473712681",
   "likes_count"=>130,
   "is_new_arrival"=>false,
   "article"=>"https://qiita.com/guitar_char/items/3b31f7cc79333120b452"},
