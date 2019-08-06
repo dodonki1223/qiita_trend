@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'qiita_trend'
 require 'support/cache_helper'
 require 'webmock/rspec'
 require 'vcr'
+require 'simplecov'
+
+# SimpleCovのロード処理
+SimpleCov.start
+
+require 'qiita_trend'
 
 # Webmock用のデータの作成用設定
 # ※vcrを使用し、簡単に作成する

@@ -15,12 +15,14 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.3)
+    docile (1.3.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     hashdiff (1.0.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     jaro_winkler (1.5.3)
+    json (2.1.0)
     mechanize (2.7.6)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -72,6 +74,11 @@ GEM
       rubocop (>= 0.60.0)
     ruby-progressbar (1.10.1)
     safe_yaml (1.0.5)
+    simplecov (0.16.1)
+      docile (~> 1.1)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
@@ -94,6 +101,7 @@ DEPENDENCIES
   rspec_junit_formatter
   rubocop (~> 0.62)
   rubocop-rspec
+  simplecov
   vcr
   webmock
 
