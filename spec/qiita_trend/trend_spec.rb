@@ -24,7 +24,7 @@ RSpec.describe QiitaTrend::Trend do
   describe '#items' do
     subject(:first_items) { trend.items[0] }
 
-    it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article') }
+    it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article', 'created_at', 'user_page') }
   end
 
   describe '#new_items' do
