@@ -1,6 +1,5 @@
 # QiitaTrend
 
-
 [![Gem Version](https://badge.fury.io/rb/qiita_trend.svg)](https://badge.fury.io/rb/qiita_trend) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/dodonki1223/qiita_trend/blob/master/LICENSE.txt) [![CircleCI](https://circleci.com/gh/dodonki1223/qiita_trend/tree/master.svg?style=svg)](https://circleci.com/gh/dodonki1223/qiita_trend/tree/master)
 
 Qiitaのトレンドを10秒で取得することができます
@@ -36,7 +35,6 @@ Or install it yourself as:
 ### QiitaのDailyのトレンドを10秒で取得する
 
 ターミナルでコマンド`gem install qiita_trend`、`ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"`を実行することでQiitaのトレンドを10秒で取得できます  
-**2019年8月2日08時00分頃に実行した結果です**
 
 ```shell
 $ gem install qiita_trend
@@ -48,20 +46,23 @@ Done installing documentation for qiita_trend after 0 seconds
 1 gem installed
 
 $ ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"
-[{"title"=>"「ソースコード全部読まなきゃ病」と闘う方法",
-  "user_name"=>"guitar_char",
+[{"title"=>"2行でwebpack.config.jsで補完を効かせる方法",
+  "user_name"=>"akameco",
   "user_image"=>
-   "https://qiita-image-store.s3.amazonaws.com/0/114709/profile-,images/1473712681",
-  "likes_count"=>130,
-  "is_new_arrival"=>false,
-  "article"=>"https://qiita.com/guitar_char/items/3b31f7cc79333120b452"},
- {"title"=>"恐竜でもわかるJavaScript",
-  "user_name"=>"baby-degu",
-  "user_image"=>
-   "https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/407975/profile-images/1557035044",
-  "likes_count"=>129,
-  "is_new_arrival"=>false,
-  "article"=>"https://qiita.com/baby-degu/items/d1bf48b6595bab2fda6f"},
+   "https://qiita-image-store.s3.amazonaws.com/0/15319/profile-images/1473684249",
+  "user_page"=>"https://qiita.com/akameco",
+  "article"=>"https://qiita.com/akameco/items/e12377e55e379d29636e",
+  "created_at"=>"2019-08-05T01:17:34Z",
+  "likes_count"=>158,
+  "is_new_arrival"=>false},
+ {"title"=>"Excelで誰でも簡単言語処理 (感情推定, 固有表現抽出, キーワード抽出,  文類似度推定 etc...)",
+  "user_name"=>"Harusugi",
+  "user_image"=>"https://avatars2.githubusercontent.com/u/19549989?v=4",
+  "user_page"=>"https://qiita.com/Harusugi",
+  "article"=>"https://qiita.com/Harusugi/items/535874c0456dbc4db231",
+  "created_at"=>"2019-08-04T23:01:22Z",
+  "likes_count"=>103,
+  "is_new_arrival"=>false},
   ...
 ```
 
@@ -76,12 +77,12 @@ index + タイトル名 + いいね数 + ユーザー名
 ```shell
 $ ruby -r qiita_trend -e "QiitaTrend::Trend.new.items.each_with_index {|t, i| puts '[' + i.to_s + ']' + t['title'] + '(' + t['likes_count'].to_s + ')' + ' - ' + t['user_name']}"
 
-[0]「ソースコード全部読まなきゃ病」と闘う方法(130) - guitar_char
-[1]恐竜でもわかるJavaScript(129) - baby-degu
-[2]「ようこそ・・・『テストの世界』へ・・・」(168) - shonansurvivors
-[3]水田の取水バルブを定点カメラで監視し、水田の水があるかないか、給水されているか否かを機械学習で識別してみた(114) - mix_dvd
-[4]ハムスターの写真を撮りたい(84) - mk-takahashi
-[5]CSSを非同期ロードする最も簡単な方法(64) - rana_kualu
+[0]2行でwebpack.config.jsで補完を効かせる方法(158) - akameco
+[1]Excelで誰でも簡単言語処理 (感情推定, 固有表現抽出, キーワード抽出,  文類似度推定 etc...)(103) - Harusugi
+[2]コミュニケーション能力についてTwitterで打ち明けたら解決の糸口が見つかった話(109) - cyross4vocaloid
+[3]畑に農作物を植えてみたけど、忙しくて毎日水やりにいけないのに日照り続きでどうしたものかと悩んでいたら、自動で散水する方法を思いついて試してみたという話(86) - mix_dvd
+[4]KAGGLEでどこから手を付けていいか分からず学ぶことが多すぎてまとめてみた(89) - aokikenichi
+[5]畳み込みニューラルネットワークは何を見ているか(69) - okn-yu
 ```
 
 #### Dailyのトレンドのタイトル一覧
@@ -89,12 +90,12 @@ $ ruby -r qiita_trend -e "QiitaTrend::Trend.new.items.each_with_index {|t, i| pu
 ```shell
 $ ruby -r qiita_trend -e "QiitaTrend::Trend.new.items.each {|t| puts t['title']}"
 
-「ソースコード全部読まなきゃ病」と闘う方法
-恐竜でもわかるJavaScript
-「ようこそ・・・『テストの世界』へ・・・」
-水田の取水バルブを定点カメラで監視し、水田の水があるかないか、給水されているか否かを機械学習で識別してみた
-ハムスターの写真を撮りたい
-CSSを非同期ロードする最も簡単な方法
+2行でwebpack.config.jsで補完を効かせる方法
+Excelで誰でも簡単言語処理 (感情推定, 固有表現抽出, キーワード抽出,  文類似度推定 etc...)
+コミュニケーション能力についてTwitterで打ち明けたら解決の糸口が見つかった話
+畑に農作物を植えてみたけど、忙しくて毎日水やりにいけないのに日照り続きでどうしたものかと悩んでいたら、自動で散水する方法を思いついて試してみたという話
+KAGGLEでどこから手を付けていいか分からず学ぶことが多すぎてまとめてみた
+畳み込みニューラルネットワークは何を見ているか
 ```
 
 #### Dailyのトレンドのうち`new`がついているものをブラウザで一括で開く
@@ -125,7 +126,7 @@ p daily_trend.items
 p daily_trend.new_items
 ```
 
-#### Weekly、Monthlyのトレンドを取得する
+### Weekly、Monthlyのトレンドを取得する
 
 WeeklyとMonthlyのトレンドを取得する時はQiitaにログインしている必要があるため、ログイン出来るユーザーとパスワードの設定が必要です
 
@@ -147,7 +148,7 @@ p monthly_trend.items
 p monthly_trend.new_items
 ```
 
-#### itemsメソッド、new_itemsメソッドについて
+### itemsメソッド、new_itemsメソッドについて
 
 itemsメソッド、new_itemsメソッドは`Array`を返します
 Array一つ一つは`Hash`になります
@@ -162,25 +163,30 @@ irb(main):003:0> QiitaTrend::Trend.new.items[0].class
 Hashは以下の構成になっています
 
 ```shell
-irb(main):004:0> pp QiitaTrend::Trend.new.items[0]
-{"title"=>"「ソースコード全部読まなきゃ病」と闘う方法",
- "user_name"=>"guitar_char",
+irb(main):001:0> pp QiitaTrend::Trend.new.items[0]
+{"title"=>"2行でwebpack.config.jsで補完を効かせる方法",
+ "user_name"=>"akameco",
  "user_image"=>
-  "https://qiita-image-store.s3.amazonaws.com/0/114709/profile-images/1473712681",
- "likes_count"=>130,
- "is_new_arrival"=>false,
- "article"=>"https://qiita.com/guitar_char/items/3b31f7cc79333120b452"}
+  "https://qiita-image-store.s3.amazonaws.com/0/15319/profile-images/1473684249",
+ "user_page"=>"https://qiita.com/akameco",
+ "article"=>"https://qiita.com/akameco/items/e12377e55e379d29636e",
+ "created_at"=>"2019-08-05T01:17:34Z",
+ "likes_count"=>158,
+ "is_new_arrival"=>false}
 ```
 
 | key            |  内容                     | 備考                  |
 |:--------------:|:-------------------------:|:---------------------:|
+| title          | 記事タイトル              |                       |
 | user_name      | ユーザー名                |                       |
 | user_image     | ユーザー画像URL           |                       |
+| user_page      | ユーザーページ            |                       |
+| article        | 記事のURL                 |                       |
+| created_at     | 記事作成日                |                       |
 | likes_count    | いいね数                  | 数値が入ります        |
 | is_new_arrival | 「NEW」のついている記事か | TrueかFalseが入ります |
-| article        | 記事のURL                 |                       |
 
-#### キャシュファイルの出力先を変更する
+### キャシュファイルの出力先を変更する
 
 キャッシュファイルはデフォルトだと`ユーザーのHOMEディレクトリ/qiita_cache/`に出力されます
 
