@@ -6,8 +6,10 @@ require 'webmock/rspec'
 require 'vcr'
 require 'simplecov'
 
-# SimpleCovのロード処理
-SimpleCov.start
+# SimpleCovのロード処理（RSpecのファイルは除外する）
+SimpleCov.start do
+  add_filter '/spec/'
+end
 
 require 'qiita_trend'
 
