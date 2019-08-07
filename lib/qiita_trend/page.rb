@@ -38,7 +38,9 @@ module QiitaTrend
         form['identity'] = QiitaTrend.configuration.user_name
         form['password'] = QiitaTrend.configuration.password
         logged_page = form.submit
-        raise StandardError, 'ログインに失敗しました（ユーザー名とパスワードでログインできることを確認してください）' if logged_page.title.include?('Login')
+
+        # ページのタイトルにLoginが含まれていたらログイン失敗とする
+        raise QiitaTrend::LoginFailureError if logged_page.title.include?('Login')
       end
 
       agent.get(target.url).body
