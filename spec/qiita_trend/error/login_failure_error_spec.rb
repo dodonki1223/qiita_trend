@@ -1,20 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe QiitaTrend::Error::LoginFailureError do
-  before do
-    QiitaTrend.configure do |config|
-      config.user_name = 'hogehoge'
-      config.password = 'test1234'
-    end
-  end
-
-  # テスト後は初期値にする
-  after do
-    QiitaTrend.configure do |config|
-      config.user_name = nil
-      config.password = nil
-    end
-  end
+  include_context 'when set configuration', 'hogehoge', 'hoge1234', nil
 
   let(:login_failure) { described_class.new }
 
