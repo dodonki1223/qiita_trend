@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module QiitaTrend
-  class SyntaxError < ::StandardError
+  module Error
+    class SyntaxError < ::StandardError
+    end
   end
 end

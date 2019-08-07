@@ -16,7 +16,7 @@ module QiitaTrend
 
       # 指定されたキャッシュファイルが存在しない場合は処理を終了
       unless date.nil?
-        raise NotExistsCacheError.new(@cache) unless @cache.cached?
+        raise Error::NotExistsCacheError, @cache unless @cache.cached?
       end
 
       # キャッシュが存在する場合はキャッシュから取得
@@ -42,7 +42,7 @@ module QiitaTrend
       logged_page = form.submit
 
       # ページのタイトルにLoginが含まれていたらログイン失敗とする
-      raise LoginFailureError.new if logged_page.title.include?('Login')
+      raise Error::LoginFailureError if logged_page.title.include?('Login')
     end
   end
 end

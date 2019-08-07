@@ -19,6 +19,19 @@ RSpec.describe QiitaTrend::Page do
       expect(not_exists_cache_page.html).to include('<title>Qiita</title>')
     end
 
+    context 'when cannot log in' do
+      let(:need_login_page) do
+        create_cache_mock(false, QiitaTrend::Target.new(QiitaTrend::TrendType::WEEKLY))
+        VCR.use_cassette 'need_login_page' do
+          described_class.new(QiitaTrend::TrendType::WEEKLY)
+        end
+      end
+
+      it 'LoginFailureErrorが発生すること' do
+        expect { need_login_page }.to raise_error(QiitaTrend::Error::LoginFailureError)
+      end
+    end
+
     context 'when a cache file exists' do
       it 'キャッシュファイルからロードされること' do
         expect(exists_cache_page.cache).to have_received(:load_cache).once
@@ -47,9 +60,10 @@ RSpec.describe QiitaTrend::Page do
 
     context 'when a cache file is specified and cache file does not exists' do
       let(:not_exists_specified_cache) { described_class.new(QiitaTrend::TrendType::WEEKLY, 'hogehoge') }
+      let(:cache) { not_exists_specified_cache.cache }
 
-      it '「キャッシュファイルが存在しません」例外が発生すること' do
-        expect { not_exists_specified_cache }.to raise_error(StandardError, '指定されたキャッシュファイルが存在しません')
+      it 'NotExistsCacheErrorが発生すること' do
+        expect { not_exists_specified_cache }.to raise_error(QiitaTrend::Error::NotExistsCacheError)
       end
     end
   end

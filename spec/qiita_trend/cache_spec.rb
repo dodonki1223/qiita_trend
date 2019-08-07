@@ -46,15 +46,4 @@ RSpec.describe QiitaTrend::Cache do
       expect(cache.load_cache).to eq 'Hello World!!'
     end
   end
-
-  describe '#clear_cache' do
-    it 'ファイルの削除に失敗した時、例外が発生すること' do
-      # Fileクラスのexist?がtrueを返すように偽装する
-      allow(File).to receive(:exist?).and_return(true)
-      # FileクラスのdeleteがStandardErrorを返すように偽装する
-      allow(File).to receive(:delete).and_raise(StandardError)
-
-      expect { cache.clear_cache }.to raise_error(StandardError, 'キャッシュファイルの削除に失敗しました')
-    end
-  end
 end
