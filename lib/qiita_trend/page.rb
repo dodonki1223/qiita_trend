@@ -31,19 +31,18 @@ module QiitaTrend
     def create_html(target)
       agent = Mechanize.new
       agent.user_agent_alias = 'Mac Safari'
-
-      # ログイン処理
-      if target.need_login
-        form = agent.get(QIITA_LOGIN_URI).forms.first
-        form['identity'] = QiitaTrend.configuration.user_name
-        form['password'] = QiitaTrend.configuration.password
-        logged_page = form.submit
-
-        # ページのタイトルにLoginが含まれていたらログイン失敗とする
-        raise LoginFailureError.new if logged_page.title.include?('Login')
-      end
-
+      login_qiita(agent) if target.need_login
       agent.get(target.url).body
+    end
+
+    def login_qiita(agent)
+      form = agent.get(QIITA_LOGIN_URI).forms.first
+      form['identity'] = QiitaTrend.configuration.user_name
+      form['password'] = QiitaTrend.configuration.password
+      logged_page = form.submit
+
+      # ページのタイトルにLoginが含まれていたらログイン失敗とする
+      raise LoginFailureError.new if logged_page.title.include?('Login')
     end
   end
 end
