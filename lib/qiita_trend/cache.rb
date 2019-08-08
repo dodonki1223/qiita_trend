@@ -33,12 +33,5 @@ module QiitaTrend
     def cached?
       File.exist?(@full_path)
     end
-
-    # キャッシュファイルをクリアする
-    def clear_cache
-      File.delete(@full_path) if cached?
-    rescue StandardError => e
-      raise e.class, 'キャッシュファイルの削除に失敗しました'
-    end
   end
 end

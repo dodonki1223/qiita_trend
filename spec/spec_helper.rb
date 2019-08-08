@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'support/cache_helper'
+require 'support/configuration_helper'
 require 'webmock/rspec'
 require 'vcr'
 require 'simplecov'

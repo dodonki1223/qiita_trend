@@ -16,7 +16,7 @@ module QiitaTrend
 
       # 指定されたキャッシュファイルが存在しない場合は処理を終了
       unless date.nil?
-        raise StandardError, '指定されたキャッシュファイルが存在しません' unless @cache.cached?
+        raise Error::NotExistsCacheError, @cache unless @cache.cached?
       end
 
       # キャッシュが存在する場合はキャッシュから取得
@@ -31,17 +31,18 @@ module QiitaTrend
     def create_html(target)
       agent = Mechanize.new
       agent.user_agent_alias = 'Mac Safari'
-
-      # ログイン処理
-      if target.need_login
-        form = agent.get(QIITA_LOGIN_URI).forms.first
-        form['identity'] = QiitaTrend.configuration.user_name
-        form['password'] = QiitaTrend.configuration.password
-        logged_page = form.submit
-        raise StandardError, 'ログインに失敗しました（ユーザー名とパスワードでログインできることを確認してください）' if logged_page.title.include?('Login')
-      end
-
+      login_qiita(agent) if target.need_login
       agent.get(target.url).body
+    end
+
+    def login_qiita(agent)
+      form = agent.get(QIITA_LOGIN_URI).forms.first
+      form['identity'] = QiitaTrend.configuration.user_name
+      form['password'] = QiitaTrend.configuration.password
+      logged_page = form.submit
+
+      # ページのタイトルにLoginが含まれていたらログイン失敗とする
+      raise Error::LoginFailureError if logged_page.title.include?('Login')
     end
   end
 end
