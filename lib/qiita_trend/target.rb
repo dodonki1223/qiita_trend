@@ -1,9 +1,21 @@
 # frozen_string_literal: true
 
 module QiitaTrend
+  # Qiitaの対象のトレンドの機能を提供する
   class Target
-    attr_reader :type, :url, :need_login, :cache
+    # @return [TrendType] トレンドタイプ（TrendType::DAILY,TrendType::WEEKLY,TrendType::MONTHLY）
+    attr_reader :type
+    # @return [String] トレンドを取得するQiitaのページURL
+    attr_reader :url
+    # @return [Boolean] Qiitaへのログインが必要かどうか
+    attr_reader :need_login
+    # @return [String] キャッシュファイル名
+    attr_reader :cache
 
+    # コンストラクタ
+    #
+    # @param [TrendType] trend_type トレンドタイプ
+    # @param [String] date 「YYYYMMDD05」,「YYYYMMDD17」形式のどちらか
     def initialize(trend_type = TrendType::DAILY, date = nil)
       @type = trend_type
       @url = trend_url(trend_type)
@@ -13,6 +25,10 @@ module QiitaTrend
 
     private
 
+    # トレンドのURLを取得する
+    #
+    # @param [TrendType] type トレンドタイプ
+    # @return [String] トレンドを取得するQiitaのページURL
     def trend_url(type)
       case type
       when TrendType::DAILY then 'https://qiita.com/'
@@ -21,6 +37,12 @@ module QiitaTrend
       end
     end
 
+    # キャッシュ名を取得する
+    # キャシュ名はYYYYMMDD05_daily.html,YYYYMMDD17_weekly.htmlなどの形式になります
+    # dateが指定されていなかったら現在時刻からキャッシュファイル名を作成し指定されていたらそのdateからキャッシュ名を取得する
+    #
+    # @param [TrendType] type トレンドタイプ
+    # @param [String] date 「YYYYMMDD05」,「YYYYMMDD17」形式のどちらか
     def cache_name(type, date)
       return "#{date}_#{type}.html" unless date.nil?
 

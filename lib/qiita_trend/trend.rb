@@ -5,9 +5,17 @@ require 'open-uri'
 require 'json'
 
 module QiitaTrend
+  # Qiitaのトレンドの機能を提供する
   class Trend
+    # @return [Array] トレンドデータ
     attr_reader :data
 
+    # コンストラクタ
+    #
+    # @param [TrendType] trend_type トレンドタイプ
+    # @param [String] date 「YYYYMMDD05」,「YYYYMMDD17」形式のどちらか
+    # @raise [LoginFailureError] ログインに失敗した時に発生する
+    # @raise [NotExistsCacheError] 存在しないキャッシュファイルを指定した時に発生する
     def initialize(trend_type = TrendType::DAILY, date = nil)
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
@@ -16,6 +24,9 @@ module QiitaTrend
       @data = trends_data['trend']['edges']
     end
 
+    # Qiitaの対象のトレンドをすべて取得
+    #
+    # @return [Array] Qiitaの対象のトレンドすべて
     def items
       @data.each_with_object([]) do |trend, value|
         result = {}
@@ -31,6 +42,9 @@ module QiitaTrend
       end
     end
 
+    # Qiitaの対象のトレンドからNEWのものだけ取得
+    #
+    # @return [Array] Qiitaの対象のトレンドからNEWのものだけ
     def new_items
       items.select do |trend|
         trend['is_new_arrival'] == true
