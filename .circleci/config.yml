@@ -62,6 +62,11 @@ jobs:
               --out test_results/rspec.xml \
               --format progress \
               $TEST_FILES
+      # create document
+      - run:
+          name: create document
+          command: |
+            bundle exec yard
       # collect reports
       - store_test_results:
           path: test_results
@@ -73,6 +78,10 @@ jobs:
           # カバレッジの結果をcoverage-resultsディレクトリに吐き出す
           path: coverage
           destination: coverage-results
+      - store_artifacts:
+          # ドキュメントの結果をyard-resultsディレクトリに吐き出す
+          path: ./doc
+          destination: yard-results
       # deploy RubyGems
       - deploy:
           command: |
