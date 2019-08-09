@@ -11,9 +11,17 @@ module QiitaTrend
     end
   end
 
+  # QiitaTrendのConfigの設定する機能を提供する
   class Configuration
-    attr_accessor :user_name, :password, :cache_directory
+    # @return [String] Qiitaにログインするためのユーザー名
+    attr_accessor :user_name
+    # @return [String] Qiitaにログインするためのパスワード
+    attr_accessor :password
+    # @return [String] キャッシュファイルを保存するディレクトリ
+    attr_accessor :cache_directory
 
+    # コンストラクタ
+    # Configurationクラスのインスタンスを返します
     def initialize
       @user_name = nil
       @password = nil

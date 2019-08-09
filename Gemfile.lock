@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    qiita_trend (0.2.8)
+    qiita_trend (0.2.9)
       mechanize
       nokogiri (~> 1.9)
 
@@ -89,6 +89,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrobots (0.1.2)
+    yard (0.9.20)
 
 PLATFORMS
   ruby
@@ -104,6 +105,7 @@ DEPENDENCIES
   simplecov
   vcr
   webmock
+  yard
 
 BUNDLED WITH
    2.0.2
