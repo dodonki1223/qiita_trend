@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    qiita_trend (0.2.8)
+    qiita_trend (0.2.9)
       mechanize
       nokogiri (~> 1.9)
 
@@ -39,7 +39,7 @@ GEM
     net-http-digest_auth (1.4.1)
     net-http-persistent (3.1.0)
       connection_pool (~> 2.2)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     ntlm-http (0.1.1)
     parallel (1.17.0)
