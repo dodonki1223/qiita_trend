@@ -68,6 +68,12 @@ jobs:
               --format progress \
               $TEST_FILES
 
+      # Create document
+      - run:
+          name: create document
+          command: |
+            bundle exec yard
+
       # Collect Reports
       - store_test_results:
           path: test_results
@@ -75,11 +81,14 @@ jobs:
           # テスト結果をtest-resultsディレクトリに吐き出す
           path: test_results
           destination: test-results
-
       - store_artifacts:
           # カバレッジの結果をcoverage-resultsディレクトリに吐き出す
           path: coverage
           destination: coverage-results
+      - store_artifacts:
+          # ドキュメントの結果をyard-resultsディレクトリに吐き出す
+          path: ./doc
+          destination: yard-results
 
   deploy:
     docker:
