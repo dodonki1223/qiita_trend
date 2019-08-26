@@ -6,54 +6,59 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.6.0-node-browsers
+      - image: circleci/ruby:2.6.0
         environment:
-          BUNDLER_VERSION: 2.0.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+          BUNDLE_PATH: vendor/bundle
 
     working_directory: ~/repo
 
     steps:
       - checkout
-      # Download and cache dependencies
+
+      # Install Bundler
+      # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
+      - run:
+          name: Install Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
+      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      # install Bundler!
-      # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
+
+      # Install gem
       - run:
-          name: install bundler
-          command: |
-            sudo gem update --system
-            sudo gem uninstall bundler
-            sudo rm /usr/local/bin/bundle
-            sudo rm /usr/local/bin/bundler
-            sudo gem install bundler
-      # install gem!
-      - run:
-          name: install gem
+          name: Install gem
           command: |
             # jobs=4は並列処理をして高速化するための設定（４つのjobで実行するって意味）
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+
+      # Store bundle cache for Ruby dependencies
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      # run rubocop!
+
+      # Run RuboCop
       - run:
-          name: run rubocop
+          name: Run RuboCop
           command: |
             bundle exec rubocop
-      # run tests!
+
+      # Run tests
       - run:
-          name: run tests
+          name: Run tests
           command: |
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             bundle exec rspec \
@@ -62,12 +67,14 @@ jobs:
               --out test_results/rspec.xml \
               --format progress \
               $TEST_FILES
-      # create document
+
+      # Create document
       - run:
-          name: create document
+          name: Create document
           command: |
             bundle exec yard
-      # collect reports
+
+      # Collect Reports
       - store_test_results:
           path: test_results
       - store_artifacts:
@@ -82,14 +89,64 @@ jobs:
           # ドキュメントの結果をyard-resultsディレクトリに吐き出す
           path: ./doc
           destination: yard-results
-      # deploy RubyGems
-      - deploy:
+
+  deploy:
+    docker:
+      - image: circleci/ruby:2.6.0
+
+    steps:
+      - checkout
+
+      # Install Bundler
+      # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
+      - run:
+          name: install Bundler
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              mkdir ~/.gem
-              curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
-              git config user.name dodonki1223
-              git config user.email $RUBYGEMS_EMAIL
-              bundle exec rake build
-              bundle exec rake release
-            fi
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
+      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+
+      # Install gem
+      - run:
+          name: Install gem
+          command: bundle check --path vendor/bundle || bundle install
+
+      # Store bundle cache for Ruby dependencies
+      - save_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # Deploy RubyGems
+      - run:
+          name: Deploy RubyGems
+          command: |
+            curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
+            git config user.name dodonki1223
+            git config user.email $RUBYGEMS_EMAIL
+            bundle exec rake build
+            bundle exec rake release
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master # masterブランチの時だけDeployJobを実行するようにする
