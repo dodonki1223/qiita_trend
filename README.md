@@ -14,37 +14,23 @@ Qiitaのトレンドを10秒で取得することができます
 - 過去のトレンドを取得することができます（**あくまでもキャッシュファイルから復元するためキャッシュファイルの無い過去のトレンドは取得することができません**）
 - いいね数は性質上取得した時の時間に依存します。どうしても現在時刻のいいね数が欲しい場合はキャシュファイルを手動で削除してもう一度実行してください
 
-## インストール
+## ドキュメント
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'qiita_trend'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install qiita_trend
+[RubyDoc.info](https://rubydoc.info/github/dodonki1223/qiita_trend)
 
 ## 使用方法
 
-### QiitaのDailyのトレンドを10秒で取得する
-
-ターミナルでコマンド`gem install qiita_trend`、`ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"`を実行することでQiitaのトレンドを10秒で取得できます  
+`gem install qiita_trend`を実行する
 
 ```shell
 $ gem install qiita_trend
-Fetching qiita_trend-0.2.3.gem
-Successfully installed qiita_trend-0.2.3
-Parsing documentation for qiita_trend-0.2.3
-Installing ri documentation for qiita_trend-0.2.3
-Done installing documentation for qiita_trend after 0 seconds
-1 gem installed
+```
 
+### QiitaのDailyのトレンドを10秒で取得する
+
+ターミナルで`ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"`を実行することでQiitaのトレンドを10秒（**gem install qiita_trendも含めて**）で取得できます  
+
+```shell
 $ ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"
 [{"title"=>"2行でwebpack.config.jsで補完を効かせる方法",
   "user_name"=>"akameco",
@@ -66,11 +52,7 @@ $ ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"
   ...
 ```
 
-### ワンライナーで使ってみる
-
-先に`gem install qiita_trend`を実行しておくこと
-
-#### Dailyのトレンドの簡易表示
+### Dailyのトレンドの簡易表示
 
 index + タイトル名 + いいね数 + ユーザー名
 
@@ -85,7 +67,7 @@ $ ruby -r qiita_trend -e "QiitaTrend::Trend.new.items.each_with_index {|t, i| pu
 [5]畳み込みニューラルネットワークは何を見ているか(69) - okn-yu
 ```
 
-#### Dailyのトレンドのタイトル一覧
+### Dailyのトレンドのタイトル一覧
 
 ```shell
 $ ruby -r qiita_trend -e "QiitaTrend::Trend.new.items.each {|t| puts t['title']}"
@@ -98,7 +80,7 @@ KAGGLEでどこから手を付けていいか分からず学ぶことが多す�
 畳み込みニューラルネットワークは何を見ているか
 ```
 
-#### Dailyのトレンドのうち`new`がついているものをブラウザで一括で開く
+### Dailyのトレンドのうち`new`がついているものをブラウザで一括で開く
 
 ```shell
 $ ruby -r qiita_trend -e "QiitaTrend::Trend.new.new_items.each {|t| system('open ' + t['article'])}"
@@ -129,6 +111,7 @@ p daily_trend.new_items
 ### Weekly、Monthlyのトレンドを取得する
 
 WeeklyとMonthlyのトレンドを取得する時はQiitaにログインしている必要があるため、ログイン出来るユーザーとパスワードの設定が必要です
+ログインできないユーザー名とパスワードを指定している時は`LoginFailureError`の例外が発生します
 
 ```ruby
 # Qiitaにログインするためのユーザーとパスワードの設定をする
@@ -146,6 +129,25 @@ p weekly_trend.new_items
 monthly_trend = QiitaTrend::Trend.new(QiitaTrend::TrendType::MONTHLY)
 p monthly_trend.items
 p monthly_trend.new_items
+```
+
+### キャッシュファイルからトレンドを取得する
+
+キャッシュファイルが存在しない場合は`NotExistsCacheError`の例外が発生します
+WeeklyもMonthlyの取得方法もDailyと同様です
+
+```ruby
+# 2019年8月8日5時更新分のDailyのトレンドを取得する
+daily_trend_05 = QiitaTrend::Trend.new(QiitaTrend::TrendType::DAILY, '2019080805')
+
+p daily_trend_05.items
+p daily_trend_05.new_items
+
+# 2019年8月8日17時更新分のDailyのトレンドを取得する
+daily_trend_17 = QiitaTrend::Trend.new(QiitaTrend::TrendType::DAILY, '2019080817')
+
+p daily_trend_17.items
+p daily_trend_17.new_items
 ```
 
 ### itemsメソッド、new_itemsメソッドについて
@@ -175,16 +177,57 @@ irb(main):001:0> pp QiitaTrend::Trend.new.items[0]
  "is_new_arrival"=>false}
 ```
 
-| key            |  内容                     | 備考                  |
-|:--------------:|:-------------------------:|:---------------------:|
-| title          | 記事タイトル              |                       |
-| user_name      | ユーザー名                |                       |
-| user_image     | ユーザー画像URL           |                       |
-| user_page      | ユーザーページ            |                       |
-| article        | 記事のURL                 |                       |
-| created_at     | 記事作成日                |                       |
-| likes_count    | いいね数                  | 数値が入ります        |
-| is_new_arrival | 「NEW」のついている記事か | TrueかFalseが入ります |
+<table>
+  <thead>
+    <tr>
+      <th>key</th>
+      <th>内容</th>
+      <th>備考</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>title</td>
+      <td>記事タイトル</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>user_name</td>
+      <td>ユーザー名</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>user_image</td>
+      <td>ユーザー画像URL</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>user_page</td>
+      <td>ユーザーページ</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>article</td>
+      <td>記事のURL</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>created_at</td>
+      <td>記事作成日</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>likes_count</td>
+      <td>いいね数</td>
+      <td>数値が入ります</td>
+    </tr>
+    <tr>
+      <td>is_new_arrival</td>
+      <td>「NEW」のついている記事か</td>
+      <td>TrueかFalseが入ります</td>
+    </tr>
+  </tbody>
+</table>
 
 ### キャシュファイルの出力先を変更する
 

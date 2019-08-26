@@ -67,14 +67,22 @@ jobs:
               --out test_results/rspec.xml \
               --format progress \
               $TEST_FILES
+<<<<<<< HEAD
 
       # Create document
+=======
+      # create document
+>>>>>>> 53248406667da3086815d11f267e57a009520a26
       - run:
           name: create document
           command: |
             bundle exec yard
+<<<<<<< HEAD
 
       # Collect Reports
+=======
+      # collect reports
+>>>>>>> 53248406667da3086815d11f267e57a009520a26
       - store_test_results:
           path: test_results
       - store_artifacts:
@@ -89,6 +97,7 @@ jobs:
           # ドキュメントの結果をyard-resultsディレクトリに吐き出す
           path: ./doc
           destination: yard-results
+<<<<<<< HEAD
 
   deploy:
     docker:
@@ -101,6 +110,10 @@ jobs:
       # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
       - run:
           name: install Bundler
+=======
+      # deploy RubyGems
+      - deploy:
+>>>>>>> 53248406667da3086815d11f267e57a009520a26
           command: |
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV

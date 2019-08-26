@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['dodonki1223']
   spec.email         = ['make.an.effort.wish.come.true@gmail.com']
 
-  spec.summary       = 'Get Qiita Trend'
-  spec.description   = 'Get Qiita Trend'
+  spec.summary       = 'Easy to get trend for Qiita in 10 seconds'
+  spec.description   = 'Easy to get trend for Qiita in 10 seconds'
   spec.homepage      = 'https://github.com/dodonki1223/qiita_trend'
   spec.license       = 'MIT'
 
@@ -50,4 +50,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
+  spec.add_development_dependency 'yard'
 end
