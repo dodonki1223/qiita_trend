@@ -66,7 +66,7 @@ module QiitaTrend
       exclusion_imgix = unescape_url.gsub!('https://qiita-user-profile-images.imgix.net/', '')
       # クエリパラーメーを除いた形で返す
       parse_url = URI.parse(exclusion_imgix)
-      "#{parse_url.host}#{parse_url.path}"
+      "#{parse_url.scheme}://#{parse_url.host}#{parse_url.path}"
     end
   end
 end
