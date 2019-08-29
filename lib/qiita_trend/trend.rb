@@ -32,7 +32,7 @@ module QiitaTrend
         result = {}
         result['title'] = trend['node']['title']
         result['user_name'] = trend['node']['author']['urlName']
-        result['user_image'] = trend['node']['author']['profileImageUrl']
+        result['user_image'] = user_image(trend['node']['author']['profileImageUrl'])
         result['user_page'] = "#{Page::QIITA_URI}#{trend['node']['author']['urlName']}"
         result['article'] = "#{Page::QIITA_URI}#{trend['node']['author']['urlName']}/items/#{trend['node']['uuid']}"
         result['created_at'] = trend['node']['createdAt']
@@ -49,6 +49,19 @@ module QiitaTrend
       items.select do |trend|
         trend['is_new_arrival'] == true
       end
+    end
+
+    private
+
+    # ユーザーの画像のURLを取得する
+    # URLデコードしimgix(画像ファイルの配信向けに特化したCDNサービス)のURLを排除した形で返す
+    #
+    # @return [String] ユーザーの画像のURL
+    def user_image(url)
+      # URLデコード
+      unescape_url = CGI.unescape(url)
+      # imgixのURLからユーザーの画像のURLへ変換する
+      unescape_url.gsub!('https://qiita-user-profile-images.imgix.net/', '')
     end
   end
 end
