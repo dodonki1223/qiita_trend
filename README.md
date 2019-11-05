@@ -249,3 +249,7 @@ QiitaTrend.configure do |config|
   config.cache_directory = Dir.home + '/hoge/'
 end
 ```
+
+## 注意
+
+このgemは勉強用で作成したものでソースにはアンチパターンなコメント（処理を説明するようなコメントなど）が書かれています。そこはご容赦ください
