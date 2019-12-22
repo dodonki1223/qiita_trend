@@ -11,6 +11,9 @@
 # rspec failure tracking
 .rspec_status
 
+# Exclude InteliJ
+.idea
+
 /cache/
 /spec/vcr/
 /vendor/

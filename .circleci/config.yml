@@ -1,62 +1,58 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
-version: 2
-jobs:
-  build:
+version: 2.1
+executors:
+  base:
     docker:
       - image: circleci/ruby:2.6.0
         environment:
           BUNDLE_PATH: vendor/bundle
-
     working_directory: ~/repo
 
+commands:
+  # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
+  install-bundler:
     steps:
-      - checkout
-
-      # Install Bundler
-      # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
       - run:
           name: Install Bundler
           command: |
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
             gem install bundler
+            # Which version of bundler?
+            bundle -v
 
-      # Which version of bundler?
-      - run:
-          name: Which bundler?
-          command: bundle -v
-
-      # Restore bundle cache
-      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+  # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+  restore-gem-cache:
+    steps:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      # Install gem
+  install-gem:
+    steps:
       - run:
           name: Install gem
           command: |
             # jobs=4は並列処理をして高速化するための設定（４つのjobで実行するって意味）
             bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
 
-      # Store bundle cache for Ruby dependencies
+  save-gem-cache:
+    steps:
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # Run RuboCop
+  run-rubocop:
+    steps:
       - run:
           name: Run RuboCop
           command: |
             bundle exec rubocop
 
-      # Run tests
+  run-tests:
+    steps:
       - run:
           name: Run tests
           command: |
@@ -68,13 +64,16 @@ jobs:
               --format progress \
               $TEST_FILES
 
-      # Create document
+  create-document:
+    steps:
       - run:
           name: Create document
           command: |
             bundle exec yard
 
-      # Collect Reports
+  collect-reports:
+    steps:
+      # ref:https://circleci.com/docs/ja/2.0/configuration-reference/#store_test_results
       - store_test_results:
           path: test_results
       - store_artifacts:
@@ -90,46 +89,9 @@ jobs:
           path: ./doc
           destination: yard-results
 
-  deploy:
-    docker:
-      - image: circleci/ruby:2.6.0
-
+  # Deploy RubyGems
+  deploy-rubygems:
     steps:
-      - checkout
-
-      # Install Bundler
-      # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
-      - run:
-          name: install Bundler
-          command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler
-
-      # Which version of bundler?
-      - run:
-          name: Which bundler?
-          command: bundle -v
-
-      # Restore bundle cache
-      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-
-      # Install gem
-      - run:
-          name: Install gem
-          command: bundle check --path vendor/bundle || bundle install
-
-      # Store bundle cache for Ruby dependencies
-      - save_cache:
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-      # Deploy RubyGems
       - run:
           name: Deploy RubyGems
           command: |
@@ -139,14 +101,57 @@ jobs:
             bundle exec rake build
             bundle exec rake release
 
+jobs:
+  setup:
+    executor: base
+    steps:
+      - checkout
+      - install-bundler
+      - restore-gem-cache
+      - install-gem
+      - save-gem-cache
+
+  lint:
+    executor: base
+    steps:
+      - checkout
+      - install-bundler
+      - restore-gem-cache
+      - run-rubocop
+
+  test:
+    executor: base
+    steps:
+      - checkout
+      - install-bundler
+      - restore-gem-cache
+      - run-tests
+      - create-document
+      - collect-reports
+
+  deploy:
+    executor: base
+    steps:
+      - checkout
+      - install-bundler
+      - restore-gem-cache
+      - deploy-rubygems
+
 workflows:
-  version: 2
-  build-and-deploy:
+  version: 2.1
+  main:
     jobs:
-      - build
+      - setup
+      - lint:
+          requires:
+            - setup
+      - test:
+          requires:
+            - setup
       - deploy:
           requires:
-            - build
+            - lint
+            - test
           filters:
             branches:
               only: master # masterブランチの時だけDeployJobを実行するようにする
