@@ -44,6 +44,17 @@ commands:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
+  save-workspace:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  using-workspace:
+    steps:
+      - attach_workspace:
+          at: .
+
   run-rubocop:
     steps:
       - run:
