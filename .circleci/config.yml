@@ -4,7 +4,8 @@ executors:
     docker:
       - image: circleci/ruby:2.6.0
         environment:
-          BUNDLE_PATH: vendor/bundle
+          # Bundlerのパス設定が書き換えられ`vendor/bundle`ではなくて`/usr/local/bundle`を参照してしまい`bundle exec`でエラーになる
+          # Bundlerのconfigファイル(pathの設定がされたもの)をworkspaceで永続化し`vendor/bundle`を参照するようにするための設定
           BUNDLE_APP_CONFIG: .bundle
     working_directory: ~/dodonki1223/qiita_trend
 
