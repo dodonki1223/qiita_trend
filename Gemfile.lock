@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    qiita_trend (0.3.6)
+    qiita_trend (0.3.7)
       mechanize
       nokogiri (~> 1.9)
 
@@ -108,4 +108,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.0.2
+   2.1.0

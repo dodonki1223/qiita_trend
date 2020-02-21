@@ -12,8 +12,8 @@ commands:
   install-bundler:
     steps:
       - run:
-          name: Install bundler(2.0.2)
-          command: gem install bundler:2.0.2
+          name: Install bundler(2.1.0)
+          command: gem install bundler:2.1.0
 
   # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
   restore-gem-cache:
