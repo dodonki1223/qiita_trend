@@ -42,12 +42,14 @@ commands:
   save-workspace:
     steps:
       - persist_to_workspace:
+          # working_directory からの相対パスか絶対パスを指定します
           root: .
           paths: .
 
   using-workspace:
     steps:
       - attach_workspace:
+          # working_directory からの相対パスか絶対パスを指定します
           at: .
 
   run-rubocop:
@@ -116,21 +118,20 @@ jobs:
       - restore-gem-cache
       - install-gem
       - save-gem-cache
+      - save-workspace
 
   lint:
     executor: base
     steps:
-      - checkout
+      - using-workspace
       - install-bundler
-      - restore-gem-cache
       - run-rubocop
 
   test:
     executor: base
     steps:
-      - checkout
+      - using-workspace
       - install-bundler
-      - restore-gem-cache
       - run-tests
       - create-document
       - collect-reports
@@ -138,9 +139,8 @@ jobs:
   deploy:
     executor: base
     steps:
-      - checkout
+      - using-workspace
       - install-bundler
-      - restore-gem-cache
       - deploy-rubygems
 
 workflows:
