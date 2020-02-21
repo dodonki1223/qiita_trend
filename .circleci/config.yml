@@ -4,21 +4,17 @@ executors:
     docker:
       - image: circleci/ruby:2.6.0
         environment:
-          BUNDLE_PATH: vendor/bundle
-    working_directory: ~/repo
+          # Bundlerのパス設定が書き換えられ`vendor/bundle`ではなくて`/usr/local/bundle`を参照してしまい`bundle exec`でエラーになる
+          # Bundlerのconfigファイル(pathの設定がされたもの)をworkspaceで永続化し`vendor/bundle`を参照するようにするための設定
+          BUNDLE_APP_CONFIG: .bundle
+    working_directory: ~/dodonki1223/qiita_trend
 
 commands:
-  # ref:https://discuss.circleci.com/t/using-bundler-2-0-during-ci-fails/27411
   install-bundler:
     steps:
       - run:
-          name: Install Bundler
-          command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler
-            # Which version of bundler?
-            bundle -v
+          name: Install bundler(2.1.0)
+          command: gem install bundler:2.1.0
 
   # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
   restore-gem-cache:
@@ -43,6 +39,19 @@ commands:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  save-workspace:
+    steps:
+      - persist_to_workspace:
+          # working_directory からの相対パスか絶対パスを指定します
+          root: .
+          paths: .
+
+  using-workspace:
+    steps:
+      - attach_workspace:
+          # working_directory からの相対パスか絶対パスを指定します
+          at: .
 
   run-rubocop:
     steps:
@@ -110,21 +119,20 @@ jobs:
       - restore-gem-cache
       - install-gem
       - save-gem-cache
+      - save-workspace
 
   lint:
     executor: base
     steps:
-      - checkout
+      - using-workspace
       - install-bundler
-      - restore-gem-cache
       - run-rubocop
 
   test:
     executor: base
     steps:
-      - checkout
+      - using-workspace
       - install-bundler
-      - restore-gem-cache
       - run-tests
       - create-document
       - collect-reports
@@ -132,9 +140,8 @@ jobs:
   deploy:
     executor: base
     steps:
-      - checkout
+      - using-workspace
       - install-bundler
-      - restore-gem-cache
       - deploy-rubygems
 
 workflows:
