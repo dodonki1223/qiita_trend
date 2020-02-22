@@ -101,6 +101,10 @@ commands:
   # Deploy RubyGems
   deploy-rubygems:
     steps:
+      # ref:https://support.circleci.com/hc/ja/articles/115015628247-%E6%8E%A5%E7%B6%9A%E3%82%92%E7%B6%9A%E8%A1%8C%E3%81%97%E3%81%BE%E3%81%99%E3%81%8B-%E3%81%AF%E3%81%84-%E3%81%84%E3%81%84%E3%81%88-
+      - add_ssh_keys:
+          fingerprints:
+            - "7e:b2:fb:7e:f9:c0:35:b6:fd:c4:c0:dd:ac:b6:b0:23"
       - run:
           name: Deploy RubyGems
           command: |
