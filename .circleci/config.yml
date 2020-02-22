@@ -98,17 +98,13 @@ commands:
           path: ./doc
           destination: yard-results
 
+  # Deploy RubyGems
   deploy-rubygems:
     steps:
-      # ref:https://support.circleci.com/hc/ja/articles/115015628247-%E6%8E%A5%E7%B6%9A%E3%82%92%E7%B6%9A%E8%A1%8C%E3%81%97%E3%81%BE%E3%81%99%E3%81%8B-%E3%81%AF%E3%81%84-%E3%81%84%E3%81%84%E3%81%88-
-      - add_ssh_keys:
-          fingerprints:
-            - "88:e0:ff:18:3a:57:fb:91:20:97:ad:5b:a5:ba:31:2d"
       - run:
           name: Deploy RubyGems
           command: |
-            curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
-            chmod 0600 ~/.gem/credentials
+            curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
             git config user.name dodonki1223
             git config user.email $RUBYGEMS_EMAIL
             bundle exec rake build
