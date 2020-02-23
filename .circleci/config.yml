@@ -101,9 +101,10 @@ commands:
   deploy-rubygems:
     steps:
       # ref:https://support.circleci.com/hc/ja/articles/115015628247-%E6%8E%A5%E7%B6%9A%E3%82%92%E7%B6%9A%E8%A1%8C%E3%81%97%E3%81%BE%E3%81%99%E3%81%8B-%E3%81%AF%E3%81%84-%E3%81%84%E3%81%84%E3%81%88-
+      # read/write両方の権限が必要
       - add_ssh_keys:
           fingerprints:
-            - "7e:b2:fb:7e:f9:c0:35:b6:fd:c4:c0:dd:ac:b6:b0:23"
+            - "38:d2:72:5e:9f:67:93:9a:ec:95:94:a2:0e:bf:41:9e"
       - run:
           name: Deploy RubyGems
           command: |
