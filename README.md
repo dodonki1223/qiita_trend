@@ -4,7 +4,7 @@
 
 Qiitaのトレンドを10秒で取得することができます
 
-![qiita_trend_sample](qiita_trend.gif)
+![01_qiita_trend](https://raw.githubusercontent.com/dodonki1223/image_garage/master/qiita_trend/01_qiita_trend.gif)
 
 ## 概要
 

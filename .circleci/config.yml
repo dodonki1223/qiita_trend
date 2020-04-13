@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  slack: circleci/slack@3.4.2
 executors:
   base:
     docker:
@@ -73,13 +75,6 @@ commands:
               --format progress \
               $TEST_FILES
 
-  create-document:
-    steps:
-      - run:
-          name: Create document
-          command: |
-            bundle exec yard
-
   collect-reports:
     steps:
       # ref:https://circleci.com/docs/ja/2.0/configuration-reference/#store_test_results
@@ -93,6 +88,13 @@ commands:
           # カバレッジの結果をcoverage-resultsディレクトリに吐き出す
           path: coverage
           destination: coverage-results
+
+  create-document:
+    steps:
+      - run:
+          name: Create document
+          command: |
+            bundle exec yard
       - store_artifacts:
           # ドキュメントの結果をyard-resultsディレクトリに吐き出す
           path: ./doc
@@ -125,6 +127,12 @@ commands:
             bundle exec rake build
             bundle exec rake release
 
+  deploy-notification:
+    steps:
+      - slack/status:
+          success_message: ':circleci-pass: RubyGemsにデプロイが完了しました\n:github_octocat: User: $CIRCLE_USERNAME'
+          failure_message: ':circleci-fail: RubyGemsにデプロイが失敗しました\n:github_octocat: User: $CIRCLE_USERNAME'
+
 jobs:
   setup:
     executor: base
@@ -149,8 +157,14 @@ jobs:
       - using-workspace
       - install-bundler
       - run-tests
-      - create-document
       - collect-reports
+
+  document:
+    executor: base
+    steps:
+      - using-workspace
+      - install-bundler
+      - create-document
 
   deploy:
     executor: base
@@ -158,6 +172,7 @@ jobs:
       - using-workspace
       - install-bundler
       - deploy-rubygems
+      - deploy-notification
 
 workflows:
   version: 2.1
@@ -170,10 +185,24 @@ workflows:
       - test:
           requires:
             - setup
-      - deploy:
+      - document:
+          requires:
+            - setup
+      - slack/approval-notification:
+          message: ':circleci-pass: RubyGemsへのデプロイ準備が整っています\n:github_octocat: User: $CIRCLE_USERNAME\nデプロイを実行する場合は *Approve* を押してください'
           requires:
             - lint
             - test
           filters:
             branches:
-              only: master # masterブランチの時だけDeployJobを実行するようにする
+              only: master
+      - approval-job:
+          type: approval
+          requires:
+            - slack/approval-notification
+      - deploy:
+          requires:
+            - approval-job
+          filters:
+            branches:
+              only: master
