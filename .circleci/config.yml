@@ -75,13 +75,6 @@ commands:
               --format progress \
               $TEST_FILES
 
-  create-document:
-    steps:
-      - run:
-          name: Create document
-          command: |
-            bundle exec yard
-
   collect-reports:
     steps:
       # ref:https://circleci.com/docs/ja/2.0/configuration-reference/#store_test_results
@@ -95,6 +88,13 @@ commands:
           # カバレッジの結果をcoverage-resultsディレクトリに吐き出す
           path: coverage
           destination: coverage-results
+
+  create-document:
+    steps:
+      - run:
+          name: Create document
+          command: |
+            bundle exec yard
       - store_artifacts:
           # ドキュメントの結果をyard-resultsディレクトリに吐き出す
           path: ./doc
@@ -157,8 +157,14 @@ jobs:
       - using-workspace
       - install-bundler
       - run-tests
-      - create-document
       - collect-reports
+
+  document:
+    executor: base
+    steps:
+      - using-workspace
+      - install-bundler
+      - create-document
 
   deploy:
     executor: base
@@ -177,6 +183,9 @@ workflows:
           requires:
             - setup
       - test:
+          requires:
+            - setup
+      - document:
           requires:
             - setup
       - slack/approval-notification:
