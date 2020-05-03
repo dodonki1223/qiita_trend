@@ -38,20 +38,20 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # qiita_trendに必要な依存gem設定（ここは最小限にすること）
-  spec.add_dependency 'mechanize', '~> 2.7.6'
-  spec.add_dependency 'nokogiri', '>= 1.10.8'
+  spec.add_dependency 'mechanize', '~> 2.7'
+  spec.add_dependency 'nokogiri', '>= 1.10'
   # 開発中のみ必要なgem設定
   spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'pry', '~> 0.13.1'
-  spec.add_development_dependency 'pry-byebug', '~> 3.9.0'
-  spec.add_development_dependency 'pry-doc', '~> 1.1.0'
+  spec.add_development_dependency 'pry', '~> 0.13'
+  spec.add_development_dependency 'pry-byebug', '~> 3.9'
+  spec.add_development_dependency 'pry-doc', '~> 1.1'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rspec_junit_formatter'
+  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.4'
   spec.add_development_dependency 'rubocop', '~> 0.62'
-  spec.add_development_dependency 'rubocop-rspec', '~> 1.39.0'
-  spec.add_development_dependency 'simplecov', '~> 0.18.5'
-  spec.add_development_dependency 'vcr', '~> 5.1.0'
-  spec.add_development_dependency 'webmock', '~> 3.8.3'
-  spec.add_development_dependency 'yard', '~> 0.9.24'
+  spec.add_development_dependency 'rubocop-rspec', '~> 1.39'
+  spec.add_development_dependency 'simplecov', '~> 0.18'
+  spec.add_development_dependency 'vcr', '~> 5.1'
+  spec.add_development_dependency 'webmock', '~> 3.8'
+  spec.add_development_dependency 'yard', '~> 0.9'
 end
