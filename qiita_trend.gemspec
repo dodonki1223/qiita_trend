@@ -42,6 +42,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri', '>= 1.10.8'
   # 開発中のみ必要なgem設定
   spec.add_development_dependency 'bundler', '~> 2.0'
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'pry-byebug'
+  spec.add_development_dependency 'pry-doc'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rspec_junit_formatter'
