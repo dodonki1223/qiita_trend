@@ -42,6 +42,7 @@ RSpec.describe QiitaTrend::Page do
       it 'キャッシュファイルが作成されること' do
         expect(not_exists_cache_page.cache).to have_received(:create_cache).once
       end
+
       it 'キャッシュファイルからロードされないこと' do
         expect(not_exists_cache_page.cache).not_to have_received(:load_cache)
       end
