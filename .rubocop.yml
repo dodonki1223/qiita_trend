@@ -10,27 +10,27 @@ Style/Documentation:
   Enabled: false
 
 # 日本語でのコメントを許可
-AsciiComments:
+Style/AsciiComments:
   Enabled: false
 
 # メソッドの引数の文字数を２文字以上とする
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   MinNameLength: 2
 
 # １行の長さのMAXを150文字とする
-Metrics/LineLength:
+Layout/LineLength:
   Max: 150
 
 # メソッドの行数をコメントを除いて５０行までとする
-MethodLength:
+Metrics/MethodLength:
   CountComments: true
   Max: 50
 
 # if文の実行結果が４行以上の場合にチェックするように設定する
-GuardClause:
+Style/GuardClause:
   MinBodyLength: 4
 
-IfUnlessModifier:
+Style/IfUnlessModifier:
   Enabled: false
 
 # メソッドの複雑度を７→１８に変更
