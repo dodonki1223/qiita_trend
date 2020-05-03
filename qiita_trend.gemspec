@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
 
   # qiita_trendに必要な依存gem設定（ここは最小限にすること）
   spec.add_dependency 'mechanize'
-  spec.add_dependency 'nokogiri', '~> 1.9'
+  spec.add_dependency 'nokogiri', '>= 1.10.8'
   # 開発中のみ必要なgem設定
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 13.0'
