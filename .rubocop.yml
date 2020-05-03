@@ -66,3 +66,31 @@ Metrics/ModuleLength:
 # Rspec句のitの行数を５→１０に変更
 RSpec/ExampleLength:
   Max: 10
+
+# https://docs.rubocop.org/en/stable/cops_layout/#layoutspacearoundmethodcalloperator
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_lint/#lintraiseexception
+Lint/RaiseException:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_lint/#lintstructnewoverride
+Lint/StructNewOverride:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#styleexponentialnotation
+Style/ExponentialNotation:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#stylehasheachmethods
+Style/HashEachMethods:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#stylehashtransformkeys
+Style/HashTransformKeys:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#stylehashtransformvalues
+Style/HashTransformValues:
+  Enabled: true
