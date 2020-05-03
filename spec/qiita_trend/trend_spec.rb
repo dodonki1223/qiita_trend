@@ -16,6 +16,7 @@ RSpec.describe QiitaTrend::Trend do
     it 'TrendのデータがArrayであること' do
       expect(trend.data).to be_a Array
     end
+
     it 'DataにisNewArrival,nodeのキーが存在すること' do
       expect(first_element).to include('isNewArrival', 'node')
     end

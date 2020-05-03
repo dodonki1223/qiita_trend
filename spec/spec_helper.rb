@@ -6,6 +6,7 @@ require 'support/configuration_helper'
 require 'webmock/rspec'
 require 'vcr'
 require 'simplecov'
+require 'pry'
 
 # SimpleCovのロード処理（RSpecのファイルは除外する）
 SimpleCov.start do

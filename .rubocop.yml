@@ -3,34 +3,34 @@ require: rubocop-rspec
 
 AllCops:
   # Rubyのバージョン指定
-  TargetRubyVersion: 2.3.7
+  TargetRubyVersion: 2.6.5
 
 # クラス名Moduleの説明をなしでもOKとする
 Style/Documentation:
   Enabled: false
 
 # 日本語でのコメントを許可
-AsciiComments:
+Style/AsciiComments:
   Enabled: false
 
 # メソッドの引数の文字数を２文字以上とする
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   MinNameLength: 2
 
 # １行の長さのMAXを150文字とする
-Metrics/LineLength:
+Layout/LineLength:
   Max: 150
 
 # メソッドの行数をコメントを除いて５０行までとする
-MethodLength:
+Metrics/MethodLength:
   CountComments: true
   Max: 50
 
 # if文の実行結果が４行以上の場合にチェックするように設定する
-GuardClause:
+Style/GuardClause:
   MinBodyLength: 4
 
-IfUnlessModifier:
+Style/IfUnlessModifier:
   Enabled: false
 
 # メソッドの複雑度を７→１８に変更
@@ -66,3 +66,31 @@ Metrics/ModuleLength:
 # Rspec句のitの行数を５→１０に変更
 RSpec/ExampleLength:
   Max: 10
+
+# https://docs.rubocop.org/en/stable/cops_layout/#layoutspacearoundmethodcalloperator
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_lint/#lintraiseexception
+Lint/RaiseException:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_lint/#lintstructnewoverride
+Lint/StructNewOverride:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#styleexponentialnotation
+Style/ExponentialNotation:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#stylehasheachmethods
+Style/HashEachMethods:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#stylehashtransformkeys
+Style/HashTransformKeys:
+  Enabled: true
+
+# https://docs.rubocop.org/en/latest/cops_style/#stylehashtransformvalues
+Style/HashTransformValues:
+  Enabled: true
