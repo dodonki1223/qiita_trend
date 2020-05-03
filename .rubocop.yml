@@ -3,7 +3,7 @@ require: rubocop-rspec
 
 AllCops:
   # Rubyのバージョン指定
-  TargetRubyVersion: 2.3.7
+  TargetRubyVersion: 2.6.5
 
 # クラス名Moduleの説明をなしでもOKとする
 Style/Documentation:
