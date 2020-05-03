@@ -59,7 +59,8 @@ module QiitaTrend
     # @param [Mechanize] agent Mechanizeクラス
     # @raise [LoginFailureError] ログインに失敗した時に発生する
     def login_qiita(agent)
-      form = agent.get(QIITA_LOGIN_URI).forms.first
+      # NOTE: Qiitaでログインする時はシングルサインオン(GitHub,Twitter,Google)でログインできない仕様にしています
+      form = agent.get(QIITA_LOGIN_URI).forms.last
       form['identity'] = QiitaTrend.configuration.user_name
       form['password'] = QiitaTrend.configuration.password
       logged_page = form.submit
