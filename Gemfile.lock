@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     qiita_trend (0.3.9)
-      mechanize
+      mechanize (~> 2.7.6)
       nokogiri (>= 1.10.8)
 
 GEM
@@ -108,19 +108,19 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
-  pry
-  pry-byebug
-  pry-doc
+  pry (~> 0.13.1)
+  pry-byebug (~> 3.9.0)
+  pry-doc (~> 1.1.0)
   qiita_trend!
   rake (~> 13.0)
   rspec (~> 3.0)
   rspec_junit_formatter
   rubocop (~> 0.62)
-  rubocop-rspec
-  simplecov
-  vcr
-  webmock
-  yard
+  rubocop-rspec (~> 1.39.0)
+  simplecov (~> 0.18.5)
+  vcr (~> 5.1.0)
+  webmock (~> 3.8.3)
+  yard (~> 0.9.24)
 
 BUNDLED WITH
    2.1.2
