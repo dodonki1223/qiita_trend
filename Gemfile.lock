@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    qiita_trend (0.3.8)
+    qiita_trend (0.3.9)
       mechanize
       nokogiri (>= 1.10.8)
 
