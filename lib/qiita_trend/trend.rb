@@ -55,17 +55,14 @@ module QiitaTrend
     private
 
     # ユーザーの画像のURLを取得する
-    # URLデコードしimgix(画像ファイルの配信向けに特化したCDNサービス)のURLを排除する
-    # クエリーパラメータも排除する
+    # URLデコードしクエリーパラメータを排除する
     #
     # @return [String] ユーザーの画像のURL
     def user_image(url)
       # URLデコード
       unescape_url = CGI.unescape(url)
-      # imgixのURLからユーザーの画像のURLへ変換する
-      exclusion_imgix = unescape_url.gsub!('https://qiita-user-profile-images.imgix.net/', '')
       # クエリパラーメーを除いた形で返す
-      parse_url = URI.parse(exclusion_imgix)
+      parse_url = URI.parse(unescape_url)
       "#{parse_url.scheme}://#{parse_url.host}#{parse_url.path}"
     end
   end
