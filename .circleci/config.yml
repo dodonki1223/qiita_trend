@@ -206,3 +206,18 @@ workflows:
           filters:
             branches:
               only: master
+  # 定期でテストを実行する
+  # ref:https://circleci.com/docs/ja/2.0/triggers/
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 22 * * *" # UTCで記述
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - setup
+      - test:
+          requires:
+            - setup
