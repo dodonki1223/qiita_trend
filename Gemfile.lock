@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    qiita_trend (0.4.1)
+    qiita_trend (0.4.2)
       mechanize (~> 2.7)
-      nokogiri (>= 1.10)
+      nokogiri (~> 1.10)
 
 GEM
   remote: https://rubygems.org/
