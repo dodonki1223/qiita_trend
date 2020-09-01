@@ -9,6 +9,8 @@ executors:
           # Bundlerのパス設定が書き換えられ`vendor/bundle`ではなくて`/usr/local/bundle`を参照してしまい`bundle exec`でエラーになる
           # Bundlerのconfigファイル(pathの設定がされたもの)をworkspaceで永続化し`vendor/bundle`を参照するようにするための設定
           BUNDLE_APP_CONFIG: .bundle
+          # ref: https://circleci.com/docs/2.0/faq/#how-can-i-set-the-timezone-in-docker-images
+          TZ: "Asia/Tokyo"
     working_directory: ~/dodonki1223/qiita_trend
 
 commands:
