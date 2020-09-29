@@ -41,7 +41,7 @@ RSpec.describe QiitaTrend::Target do
                       "#{Time.now.strftime('%Y%m%d')}17_#{QiitaTrend::TrendType::DAILY}.html"
       it_behaves_like 'cache name that matches the type and time',
                       QiitaTrend::TrendType::DAILY,
-                      Time.new(Date.today.year, Date.today.month, Date.today.next_day(1).day, 4),
+                      Time.new(Date.today.next_day(1).year, Date.today.next_day(1).month, Date.today.next_day(1).day, 4),
                       "#{Time.now.strftime('%Y%m%d')}17_#{QiitaTrend::TrendType::DAILY}.html"
     end
 
@@ -62,7 +62,7 @@ RSpec.describe QiitaTrend::Target do
                       "#{Time.now.strftime('%Y%m%d')}17_#{QiitaTrend::TrendType::WEEKLY}.html"
       it_behaves_like 'cache name that matches the type and time',
                       QiitaTrend::TrendType::WEEKLY,
-                      Time.new(Date.today.year, Date.today.month, Date.today.next_day(1).day, 4),
+                      Time.new(Date.today.next_day(1).year, Date.today.next_day(1).month, Date.today.next_day(1).day, 4),
                       "#{Time.now.strftime('%Y%m%d')}17_#{QiitaTrend::TrendType::WEEKLY}.html"
     end
 
@@ -83,7 +83,7 @@ RSpec.describe QiitaTrend::Target do
                       "#{Time.now.strftime('%Y%m%d')}17_#{QiitaTrend::TrendType::MONTHLY}.html"
       it_behaves_like 'cache name that matches the type and time',
                       QiitaTrend::TrendType::MONTHLY,
-                      Time.new(Date.today.year, Date.today.month, Date.today.next_day(1).day, 4),
+                      Time.new(Date.today.next_day(1).year, Date.today.next_day(1).month, Date.today.next_day(1).day, 4),
                       "#{Time.now.strftime('%Y%m%d')}17_#{QiitaTrend::TrendType::MONTHLY}.html"
     end
   end
