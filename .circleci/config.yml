@@ -73,7 +73,7 @@ commands:
             bundle exec rspec \
               --format progress \
               --format RspecJunitFormatter \
-              --out test_results/rspec.xml \
+              --out test_results/rspec/rspec.xml \
               --format progress \
               $TEST_FILES
 
