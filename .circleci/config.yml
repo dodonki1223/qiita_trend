@@ -5,6 +5,9 @@ executors:
   base:
     docker:
       - image: circleci/ruby:2.6.0
+        auth:
+          username: dodonki1223
+          password: $DOCKERHUB_PASSWORD
         environment:
           # Bundlerのパス設定が書き換えられ`vendor/bundle`ではなくて`/usr/local/bundle`を参照してしまい`bundle exec`でエラーになる
           # Bundlerのconfigファイル(pathの設定がされたもの)をworkspaceで永続化し`vendor/bundle`を参照するようにするための設定
