@@ -4,7 +4,7 @@ orbs:
 executors:
   base:
     docker:
-      - image: circleci/ruby:2.6.0
+      - image: cimg/ruby:2.6.6
         auth:
           username: dodonki1223
           password: $DOCKERHUB_PASSWORD
