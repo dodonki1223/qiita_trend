@@ -31,28 +31,8 @@ commands:
           # working_directory からの相対パスか絶対パスを指定します
           at: .
 
-  run-tests:
-    steps:
-      - run:
-          name: Run tests
-          command: |
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out test_results/rspec/rspec.xml \
-              --format progress \
-              $TEST_FILES
-
   collect-reports:
     steps:
-      # ref:https://circleci.com/docs/ja/2.0/configuration-reference/#store_test_results
-      - store_test_results:
-          path: test_results
-      - store_artifacts:
-          # テスト結果をtest-resultsディレクトリに吐き出す
-          path: test_results
-          destination: test-results
       - store_artifacts:
           # カバレッジの結果をcoverage-resultsディレクトリに吐き出す
           path: coverage
@@ -122,7 +102,8 @@ jobs:
     steps:
       - using-workspace
       - ruby/install-deps
-      - run-tests
+      - ruby/rspec-test:
+          out-path: 'test_results/rspec/'
       - collect-reports
 
   document:
