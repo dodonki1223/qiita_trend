@@ -39,7 +39,7 @@ $ ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"
    "https://qiita-image-store.s3.amazonaws.com/0/15319/profile-images/1473684249",
   "user_page"=>"https://qiita.com/akameco",
   "article"=>"https://qiita.com/akameco/items/e12377e55e379d29636e",
-  "created_at"=>"2019-08-05T01:17:34Z",
+  "published_at"=>"2019-08-05T01:17:34Z",
   "likes_count"=>158,
   "is_new_arrival"=>false},
  {"title"=>"Excelで誰でも簡単言語処理 (感情推定, 固有表現抽出, キーワード抽出,  文類似度推定 etc...)",
@@ -47,7 +47,7 @@ $ ruby -r qiita_trend -e "pp QiitaTrend::Trend.new.items"
   "user_image"=>"https://avatars2.githubusercontent.com/u/19549989?v=4",
   "user_page"=>"https://qiita.com/Harusugi",
   "article"=>"https://qiita.com/Harusugi/items/535874c0456dbc4db231",
-  "created_at"=>"2019-08-04T23:01:22Z",
+  "published_at"=>"2019-08-04T23:01:22Z",
   "likes_count"=>103,
   "is_new_arrival"=>false},
   ...
@@ -173,7 +173,7 @@ irb(main):001:0> pp QiitaTrend::Trend.new.items[0]
   "https://qiita-image-store.s3.amazonaws.com/0/15319/profile-images/1473684249",
  "user_page"=>"https://qiita.com/akameco",
  "article"=>"https://qiita.com/akameco/items/e12377e55e379d29636e",
- "created_at"=>"2019-08-05T01:17:34Z",
+ "published_at"=>"2019-08-05T01:17:34Z",
  "likes_count"=>158,
  "is_new_arrival"=>false}
 ```
@@ -213,7 +213,7 @@ irb(main):001:0> pp QiitaTrend::Trend.new.items[0]
       <td></td>
     </tr>
     <tr>
-      <td>created_at</td>
+      <td>published_at</td>
       <td>記事作成日</td>
       <td></td>
     </tr>

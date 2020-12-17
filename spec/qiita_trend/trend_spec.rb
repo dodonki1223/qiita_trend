@@ -12,7 +12,7 @@ RSpec.describe QiitaTrend::Trend do
 
   describe '#initialize' do
     let(:first_element) { trend.data[0] }
-    let(:node_keys) { %w[author title uuid createdAt likesCount] }
+    let(:node_keys) { %w[author title uuid publishedAt likesCount] }
     let(:author_keys) { %w[urlName profileImageUrl] }
 
     it 'TrendのデータがArrayであること' do
@@ -37,7 +37,7 @@ RSpec.describe QiitaTrend::Trend do
 
     let(:item_keys) { first_items.keys }
 
-    it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article', 'created_at', 'user_page') }
+    it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article', 'published_at', 'user_page') }
 
     it 'すべての値が取得できていること' do
       item_keys.each { |key| expect(first_items[key]).not_to eq nil }
