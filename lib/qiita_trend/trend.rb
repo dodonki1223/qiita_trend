@@ -35,7 +35,7 @@ module QiitaTrend
         result['user_image'] = user_image(trend['node']['author']['profileImageUrl'])
         result['user_page'] = "#{Page::QIITA_URI}#{trend['node']['author']['urlName']}"
         result['article'] = "#{Page::QIITA_URI}#{trend['node']['author']['urlName']}/items/#{trend['node']['uuid']}"
-        result['created_at'] = trend['node']['createdAt']
+        result['published_at'] = trend['node']['publishedAt']
         result['likes_count'] = trend['node']['likesCount']
         result['is_new_arrival'] = trend['isNewArrival']
         value << result

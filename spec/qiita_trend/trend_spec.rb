@@ -12,6 +12,8 @@ RSpec.describe QiitaTrend::Trend do
 
   describe '#initialize' do
     let(:first_element) { trend.data[0] }
+    let(:node_keys) { %w[author title uuid publishedAt likesCount] }
+    let(:author_keys) { %w[urlName profileImageUrl] }
 
     it 'TrendのデータがArrayであること' do
       expect(trend.data).to be_a Array
@@ -20,12 +22,26 @@ RSpec.describe QiitaTrend::Trend do
     it 'DataにisNewArrival,nodeのキーが存在すること' do
       expect(first_element).to include('isNewArrival', 'node')
     end
+
+    it 'nodeの配下にスクレイピング対象のキーが存在すること' do
+      node_keys.each { |key| expect(first_element['node'].keys).to include(key) }
+    end
+
+    it 'authorの配下にスクレイピング対象のキーが存在すること' do
+      author_keys.each { |key| expect(first_element['node']['author'].keys).to include(key) }
+    end
   end
 
   describe '#items' do
     subject(:first_items) { trend.items[0] }
 
-    it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article', 'created_at', 'user_page') }
+    let(:item_keys) { first_items.keys }
+
+    it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article', 'published_at', 'user_page') }
+
+    it 'すべての値が取得できていること' do
+      item_keys.each { |key| expect(first_items[key]).not_to eq nil }
+    end
   end
 
   describe '#new_items' do
