@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = QiitaTrend::VERSION
   spec.authors       = ['dodonki1223']
   spec.email         = ['make.an.effort.wish.come.true@gmail.com']
+  spec.required_ruby_version = '>= 2.6.5'
 
   spec.summary       = 'Easy to get trend for Qiita in 10 seconds'
   spec.description   = 'Easy to get trend for Qiita in 10 seconds'
@@ -39,7 +40,7 @@ Gem::Specification.new do |spec|
 
   # qiita_trendに必要な依存gem設定（ここは最小限にすること）
   spec.add_dependency 'mechanize', '~> 2.7'
-  spec.add_dependency 'nokogiri', '~> 1.10'
+  spec.add_dependency 'nokogiri', '~> 1.11'
   # 開発中のみ必要なgem設定
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'pry', '~> 0.13'

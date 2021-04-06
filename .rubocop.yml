@@ -4,6 +4,8 @@ require: rubocop-rspec
 AllCops:
   # Rubyのバージョン指定
   TargetRubyVersion: 2.6.5
+  # 新しい cop を許可
+  NewCops: enable
 
 # クラス名Moduleの説明をなしでもOKとする
 Style/Documentation:

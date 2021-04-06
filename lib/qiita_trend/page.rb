@@ -29,8 +29,8 @@ module QiitaTrend
       @cache = Cache.new(target.cache, save_cache_directory)
 
       # 指定されたキャッシュファイルが存在しない場合は処理を終了
-      unless date.nil?
-        raise Error::NotExistsCacheError, @cache unless @cache.cached?
+      if !date.nil? && !@cache.cached?
+        raise Error::NotExistsCacheError, @cache
       end
 
       # キャッシュが存在する場合はキャッシュから取得

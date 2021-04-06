@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe QiitaTrend::Configuration do
-  include_context 'when set configuration', 'hogehoge', 'hoge1234', Dir.home + '/hoge/'
+  include_context 'when set configuration', 'hogehoge', 'hoge1234', "#{Dir.home}/hoge/"
 
   let(:config) { QiitaTrend.configuration }
 
@@ -14,6 +14,6 @@ RSpec.describe QiitaTrend::Configuration do
   end
 
   it 'キャッシュファイルの保存先がセットされていること' do
-    expect(config.cache_directory).to eq Dir.home + '/hoge/'
+    expect(config.cache_directory).to eq "#{Dir.home}/hoge/"
   end
 end

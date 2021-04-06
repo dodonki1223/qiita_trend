@@ -11,7 +11,7 @@ module QiitaTrend
     attr_reader :full_path
 
     # キャッシュファイルが格納されるデフォルトのディレクトリ
-    DEFAULT_CACHE_DIRECTORY = Dir.home + '/qiita_cache/'
+    DEFAULT_CACHE_DIRECTORY = "#{Dir.home}/qiita_cache/"
 
     # コンストラクタ
     # Cacheクラスのインスタンスを返します
