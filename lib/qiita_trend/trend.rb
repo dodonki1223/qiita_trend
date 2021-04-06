@@ -20,7 +20,7 @@ module QiitaTrend
     def initialize(trend_type = TrendType::DAILY, date = nil)
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
-      trends_data = JSON.parse(parsed_html.xpath('//script[@data-component-name="HomeArticleTrendFeed"]')[0].text)
+      trends_data = JSON.parse(parsed_html.xpath('//script[@data-component-name="NewHomeArticleTrendFeed"]')[0].text)
       @data = trends_data['trend']['edges']
     end
 
