@@ -12,6 +12,7 @@ module QiitaTrend
       #
       # @param [Cache] cache キャッシュクラス
       def initialize(cache)
+        super
         @cache = cache
       end
 
