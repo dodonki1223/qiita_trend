@@ -17,7 +17,7 @@ module QiitaTrend
     # @param [String] date 「YYYYMMDD05」,「YYYYMMDD17」形式のどちらか
     # @raise [LoginFailureError] ログインに失敗した時に発生する
     # @raise [NotExistsCacheError] 存在しないキャッシュファイルを指定した時に発生する
-    def initialize(trend_type = TrendType::DAILY, date = nil)
+    def initialize(trend_type = TrendType::NORMAL, date = nil)
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
       trends_data = JSON.parse(parsed_html.xpath('//script[@data-component-name="NewHomeArticleTrendFeed"]')[0].text)

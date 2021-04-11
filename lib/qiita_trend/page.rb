@@ -23,7 +23,7 @@ module QiitaTrend
     # @param [String] date 「YYYYMMDD05」,「YYYYMMDD17」形式のどちらか
     # @raise [LoginFailureError] ログインに失敗した時に発生する
     # @raise [NotExistsCacheError] 存在しないキャッシュファイルを指定した時に発生する
-    def initialize(trend_type = TrendType::DAILY, date = nil)
+    def initialize(trend_type = TrendType::NORMAL, date = nil)
       @target = Target.new(trend_type, date)
       save_cache_directory = QiitaTrend.configuration.cache_directory.nil? ? Cache::DEFAULT_CACHE_DIRECTORY : QiitaTrend.configuration.cache_directory
       @cache = Cache.new(target.cache, save_cache_directory)

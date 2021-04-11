@@ -16,10 +16,10 @@ module QiitaTrend
     #
     # @param [TrendType] trend_type トレンドタイプ
     # @param [String] date 「YYYYMMDD05」,「YYYYMMDD17」形式のどちらか
-    def initialize(trend_type = TrendType::DAILY, date = nil)
+    def initialize(trend_type = TrendType::NORMAL, date = nil)
       @type = trend_type
-      @url = trend_url(trend_type)
-      @need_login = trend_type != TrendType::DAILY
+      @url = trend_url
+      @need_login = need_login?(trend_type)
       @cache = cache_name(trend_type, date)
     end
 
@@ -27,14 +27,17 @@ module QiitaTrend
 
     # トレンドのURLを取得する
     #
-    # @param [TrendType] type トレンドタイプ
     # @return [String] トレンドを取得するQiitaのページURL
-    def trend_url(type)
-      case type
-      when TrendType::DAILY then 'https://qiita.com/'
-      when TrendType::WEEKLY then 'https://qiita.com/?scope=weekly'
-      when TrendType::MONTHLY then 'https://qiita.com/?scope=monthly'
-      end
+    def trend_url
+      Page::QIITA_URI
+    end
+
+    # Qiitaにログインが必要か
+    #
+    # @param [TrendType] trend_type トレンドタイプ
+    # @return [Boolean] True：Qiitaへログインが必要、False：Qiitaへログイン不要
+    def need_login?(trend_type)
+      trend_type != TrendType::NORMAL
     end
 
     # キャッシュ名を取得する
