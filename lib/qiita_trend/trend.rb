@@ -20,7 +20,8 @@ module QiitaTrend
     def initialize(trend_type = TrendType::NORMAL, date = nil)
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
-      trends_data = JSON.parse(parsed_html.xpath('//script[@data-component-name="NewHomeArticleTrendFeed"]')[0].text)
+      xpath_str = "//script[@data-component-name=\"#{data_component_name(trend_type)}\"]"
+      trends_data = JSON.parse(parsed_html.xpath(xpath_str)[0].text)
       @data = trends_data['trend']['edges']
     end
 
@@ -52,6 +53,13 @@ module QiitaTrend
     end
 
     private
+
+    # QiitaのトレンドのFeed名を取得する
+    #
+    # @return [String] トレンドタイプによるFeed名
+    def data_component_name(trend_type)
+      trend_type == TrendType::PERSONAL ? 'HomePersonalizedFeed' : 'NewHomeArticleTrendFeed'
+    end
 
     # ユーザーの画像のURLを取得する
     # URLデコードしクエリーパラメータを排除する
