@@ -21,9 +21,9 @@ RSpec.describe QiitaTrend::Page do
 
     context 'when cannot log in' do
       let(:need_login_page) do
-        create_cache_mock(false, QiitaTrend::Target.new(QiitaTrend::TrendType::WEEKLY))
+        create_cache_mock(false, QiitaTrend::Target.new(QiitaTrend::TrendType::PERSONAL))
         VCR.use_cassette 'need_login_page' do
-          described_class.new(QiitaTrend::TrendType::WEEKLY)
+          described_class.new(QiitaTrend::TrendType::PERSONAL)
         end
       end
 
@@ -50,8 +50,8 @@ RSpec.describe QiitaTrend::Page do
 
     context 'when a cache file is specified and cache file exists' do
       let(:exists_specified_cache) do
-        create_cache_mock(true, QiitaTrend::Target.new(QiitaTrend::TrendType::WEEKLY, 'hogehoge'))
-        described_class.new(QiitaTrend::TrendType::WEEKLY, 'hogehoge')
+        create_cache_mock(true, QiitaTrend::Target.new(QiitaTrend::TrendType::PERSONAL, 'hogehoge'))
+        described_class.new(QiitaTrend::TrendType::PERSONAL, 'hogehoge')
       end
 
       it 'キャッシュファイルからロードされること' do
@@ -60,7 +60,7 @@ RSpec.describe QiitaTrend::Page do
     end
 
     context 'when a cache file is specified and cache file does not exists' do
-      let(:not_exists_specified_cache) { described_class.new(QiitaTrend::TrendType::WEEKLY, 'hogehoge') }
+      let(:not_exists_specified_cache) { described_class.new(QiitaTrend::TrendType::PERSONAL, 'hogehoge') }
       let(:cache) { not_exists_specified_cache.cache }
 
       it 'NotExistsCacheErrorが発生すること' do
