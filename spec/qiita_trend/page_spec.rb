@@ -15,18 +15,18 @@ RSpec.describe QiitaTrend::Page do
   end
 
   describe '#initialize' do
+    let(:need_login_page) do
+      create_cache_mock(false, QiitaTrend::Target.new(QiitaTrend::TrendType::PERSONAL))
+      VCR.use_cassette 'need_login_page' do
+        described_class.new(QiitaTrend::TrendType::PERSONAL)
+      end
+    end
+
     it 'Qiitaのページが取得できていること' do
       expect(not_exists_cache_page.html).to include('<title>Qiita</title>')
     end
 
     context 'when cannot log in' do
-      let(:need_login_page) do
-        create_cache_mock(false, QiitaTrend::Target.new(QiitaTrend::TrendType::PERSONAL))
-        VCR.use_cassette 'need_login_page' do
-          described_class.new(QiitaTrend::TrendType::PERSONAL)
-        end
-      end
-
       it 'LoginFailureErrorが発生すること' do
         expect { need_login_page }.to raise_error(QiitaTrend::Error::LoginFailureError)
       end
