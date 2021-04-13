@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe QiitaTrend::Configuration do
-  include_context 'when set configuration', 'hogehoge', 'hoge1234', "#{Dir.home}/hoge/"
+  include_context 'when set configuration', 'hoge', 'hoge1234', "#{Dir.home}/hoge/"
 
   let(:config) { QiitaTrend.configuration }
 
   it 'ユーザー名がセットされていること' do
-    expect(config.user_name).to eq 'hogehoge'
+    expect(config.user_name).to eq 'hoge'
   end
 
   it 'パスワードがセットされていること' do
