@@ -50,6 +50,8 @@ RSpec.describe QiitaTrend::Trend do
     end
 
     context 'when personal trend' do
+      include_context 'when set configuration', ENV['QIITA_TREND_USER_NAME'], ENV['QIITA_TREND_PASSWORD'], nil
+
       let(:trend) { personal_trend }
 
       it_behaves_like 'scraping data is valid'

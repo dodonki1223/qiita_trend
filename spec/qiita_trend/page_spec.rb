@@ -27,6 +27,8 @@ RSpec.describe QiitaTrend::Page do
     end
 
     context 'when cannot log in' do
+      include_context 'when set configuration', 'hogehoge', 'hoge1234', nil
+
       it 'LoginFailureErrorが発生すること' do
         expect { need_login_page }.to raise_error(QiitaTrend::Error::LoginFailureError)
       end
