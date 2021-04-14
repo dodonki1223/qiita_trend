@@ -23,9 +23,9 @@ module QiitaTrend
     # コンストラクタ
     # Configurationクラスのインスタンスを返します
     def initialize
-      @user_name = nil
-      @password = nil
-      @cache_directory = nil
+      @user_name = ENV['QIITA_TREND_USER_NAME']
+      @password = ENV['QIITA_TREND_PASSWORD']
+      @cache_directory = ENV['QIITA_TREND_CACHE_DIR']
     end
   end
 end

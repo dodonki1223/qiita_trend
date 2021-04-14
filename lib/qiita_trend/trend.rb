@@ -10,6 +10,7 @@ module QiitaTrend
   class Trend
     # @return [Array] トレンドデータ
     attr_reader :data
+    attr_reader :trend_type
 
     # コンストラクタ
     #
@@ -18,11 +19,12 @@ module QiitaTrend
     # @raise [LoginFailureError] ログインに失敗した時に発生する
     # @raise [NotExistsCacheError] 存在しないキャッシュファイルを指定した時に発生する
     def initialize(trend_type = TrendType::NORMAL, date = nil)
+      @trend_type = trend_type
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
       xpath_str = "//script[@data-component-name=\"#{data_component_name(trend_type)}\"]"
       trends_data = JSON.parse(parsed_html.xpath(xpath_str)[0].text)
-      @data = trends_data['trend']['edges']
+      @data = get_data(trends_data, trend_type)
     end
 
     # Qiitaの対象のトレンドをすべて取得
@@ -44,9 +46,12 @@ module QiitaTrend
     end
 
     # Qiitaの対象のトレンドからNEWのものだけ取得
+    # トレンドタイプがPERSONALの場合はNEWの概念が無いのでnilである
     #
     # @return [Array] Qiitaの対象のトレンドからNEWのものだけ
     def new_items
+      return nil if @trend_type == TrendType::PERSONAL
+
       items.select do |trend|
         trend['is_new_arrival'] == true
       end
@@ -56,9 +61,19 @@ module QiitaTrend
 
     # QiitaのトレンドのFeed名を取得する
     #
+    # @param [TrendType] trend_type トレンドタイプ
     # @return [String] トレンドタイプによるFeed名
     def data_component_name(trend_type)
-      trend_type == TrendType::PERSONAL ? 'HomePersonalizedFeed' : 'NewHomeArticleTrendFeed'
+      trend_type == TrendType::PERSONAL ? 'HomePersonalizedFeed' : 'HomeArticleTrendFeed'
+    end
+
+    # Qiitaのトレンドのデータを取得する
+    #
+    # @param [Hash] trends_data トレンドデータ
+    # @param [TrendType] trend_type トレンドタイプ
+    # @return [Array] トレンドタイプによるトレンドデータ
+    def get_data(trends_data, trend_type)
+      trend_type == TrendType::PERSONAL ? trends_data['personalizedFeed']['edges'] : trends_data['trend']['edges']
     end
 
     # ユーザーの画像のURLを取得する
