@@ -64,7 +64,7 @@ module QiitaTrend
     # @param [TrendType] trend_type トレンドタイプ
     # @return [String] トレンドタイプによるFeed名
     def data_component_name(trend_type)
-      trend_type == TrendType::PERSONAL ? 'HomePersonalizedFeed' : 'HomeArticleTrendFeed'
+      trend_type == TrendType::PERSONAL ? 'HomeIndexPage' : 'HomeArticleTrendFeed'
     end
 
     # Qiitaのトレンドのデータを取得する
@@ -73,7 +73,7 @@ module QiitaTrend
     # @param [TrendType] trend_type トレンドタイプ
     # @return [Array] トレンドタイプによるトレンドデータ
     def get_data(trends_data, trend_type)
-      trend_type == TrendType::PERSONAL ? trends_data['personalizedFeed']['edges'] : trends_data['trend']['edges']
+      trend_type == TrendType::PERSONAL ? trends_data['personalizedFeed']['personalizedFeed']['edges'] : trends_data['trend']['edges']
     end
 
     # ユーザーの画像のURLを取得する
