@@ -22,7 +22,7 @@ module QiitaTrend
       @trend_type = trend_type
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
-      xpath_str = "//script[@data-component-name=\"#{data_component_name(trend_type)}\"]"
+      xpath_str = '//script[@data-component-name="HomeIndexPage"]'
       trends_data = JSON.parse(parsed_html.xpath(xpath_str)[0].text)
       @data = get_data(trends_data, trend_type)
     end
@@ -59,21 +59,13 @@ module QiitaTrend
 
     private
 
-    # QiitaのトレンドのFeed名を取得する
-    #
-    # @param [TrendType] trend_type トレンドタイプ
-    # @return [String] トレンドタイプによるFeed名
-    def data_component_name(trend_type)
-      trend_type == TrendType::PERSONAL ? 'HomeIndexPage' : 'HomeArticleTrendFeed'
-    end
-
     # Qiitaのトレンドのデータを取得する
     #
     # @param [Hash] trends_data トレンドデータ
     # @param [TrendType] trend_type トレンドタイプ
     # @return [Array] トレンドタイプによるトレンドデータ
     def get_data(trends_data, trend_type)
-      trend_type == TrendType::PERSONAL ? trends_data['personalizedFeed']['personalizedFeed']['edges'] : trends_data['trend']['edges']
+      trend_type == TrendType::PERSONAL ? trends_data['personalizedFeed']['personalizedFeed']['edges'] : trends_data['trend']['trend']['edges']
     end
 
     # ユーザーの画像のURLを取得する
