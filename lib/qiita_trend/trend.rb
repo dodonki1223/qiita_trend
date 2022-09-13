@@ -22,7 +22,7 @@ module QiitaTrend
       @trend_type = trend_type
       page = Page.new(trend_type, date)
       parsed_html = Nokogiri::HTML.parse(page.html)
-      xpath_str = '//script[@data-component-name="HomeIndexPage"]'
+      xpath_str = get_xpath(trend_type)
       trends_data = JSON.parse(parsed_html.xpath(xpath_str)[0].text)
       @data = get_data(trends_data, trend_type)
     end
@@ -58,6 +58,14 @@ module QiitaTrend
     end
 
     private
+
+    # Qiitaのトレンド情報を格納しているxpathを取得する
+    #
+    # @param [TrendType] trend_type トレンドタイプ
+    # @return [String] トレンドタイプによるxpath
+    def get_xpath(trend_type)
+      trend_type == TrendType::PERSONAL ? '//script[@data-component-name="New2HomeIndexPage"]' : '//script[@data-component-name="HomeIndexPage"]'
+    end
 
     # Qiitaのトレンドのデータを取得する
     #
