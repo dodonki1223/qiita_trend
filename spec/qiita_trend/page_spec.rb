@@ -23,7 +23,7 @@ RSpec.describe QiitaTrend::Page do
     end
 
     it 'Qiitaのページが取得できていること' do
-      expect(not_exists_cache_page.html).to include('<title>Trend - Qiita</title>')
+      expect(not_exists_cache_page.html).to include('<title>Qiita</title>')
     end
 
     context 'when cannot log in' do
