@@ -51,15 +51,10 @@ commands:
 
   deploy-rubygems:
     steps:
-      # https://discuss.circleci.com/t/the-authenticity-of-github-host-cant-be-stablished/33133 と同じ現象で job が進まなくなるので以下の記事を参考に実装
-      # ref:https://circleci.com/docs/ja/2.0/gh-bb-integration/#ssh-%E3%83%9B%E3%82%B9%E3%83%88%E3%81%AE%E4%BF%A1%E9%A0%BC%E6%80%A7%E3%81%AE%E7%A2%BA%E7%AB%8B
-      - run:
-          name: Avoid hosts unknown for github
-          command: |
-            mkdir -p ~/.ssh
-            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-                  ' >> ~/.ssh/known_hosts
-
+      # ref:https://circleci.com/docs/ja/github-integration/#create-a-github-deploy-key
+      - add_ssh_keys:
+          fingerprints:
+            - "48:2e:41:d0:6a:c5:f8:37:49:9e:3a:00:f8:74:5c:7b"
       - run:
           name: Deploy RubyGems
           command: |
