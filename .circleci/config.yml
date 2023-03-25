@@ -56,6 +56,10 @@ commands:
           fingerprints:
             - "48:2e:41:d0:6a:c5:f8:37:49:9e:3a:00:f8:74:5c:7b"
       - run:
+          name: Avoid hosts unknown for github
+          command: |
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
           name: Deploy RubyGems
           command: |
             curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
