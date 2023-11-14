@@ -64,7 +64,7 @@ module QiitaTrend
     # @param [TrendType] trend_type トレンドタイプ
     # @return [String] トレンドタイプによるxpath
     def get_xpath(trend_type)
-      trend_type == TrendType::PERSONAL ? '//script[@data-component-name="New2HomeIndexPage"]' : '//script[@data-component-name="New2HomeTrendPage"]'
+      trend_type == TrendType::PERSONAL ? '//script[@data-component-name="HomeIndexPage"]' : '//script[@data-component-name="HomeTrendPage"]'
     end
 
     # Qiitaのトレンドのデータを取得する
