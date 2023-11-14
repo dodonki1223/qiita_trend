@@ -25,7 +25,7 @@ RSpec.describe QiitaTrend::Cache do
   describe '#load_cache' do
     it 'キャッシュファイルに書き込まれている内容が取得できること' do
       string_io = StringIO.new('Hello World!!')
-      allow(File).to receive(:read).and_yield(string_io)
+      allow(File).to receive(:read).and_return(string_io.string)
 
       expect(cache.load_cache).to eq 'Hello World!!'
     end

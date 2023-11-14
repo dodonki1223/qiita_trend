@@ -25,7 +25,7 @@ module QiitaTrend
     end
 
     # キャッシュファイルを作成する
-    # ※キャッシュフォルダが存在しない場合は作成します
+    # ※ディレクトリは必ず作成します
     #
     # @param [String] content 書き込む内容
     def create_cache(content)
@@ -36,11 +36,11 @@ module QiitaTrend
     end
 
     # キャッシュファイルを読み込む
-    # File.openを使用しファイルを読み込みます
+    # File.readを使用しファイルを読み込みます
     #
     # @return [Object]
     def load_cache
-      File.read(@full_path, 'r', &:read)
+      File.read(@full_path)
     end
 
     # キャッシュファイルが存在するかどうかを判定します
