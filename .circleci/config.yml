@@ -62,6 +62,7 @@ commands:
       - run:
           name: Deploy RubyGems
           command: |
+            mkdir -p ~/.gem
             curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
             chmod 0600 ~/.gem/credentials
             git config user.name dodonki1223
