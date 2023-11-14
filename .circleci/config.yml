@@ -63,8 +63,9 @@ commands:
           name: Deploy RubyGems
           command: |
             mkdir -p ~/.gem
-            curl -u dodonki1223:$RUBYGEMS_PASSWORD https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
+            touch ~/.gem/credentials
             chmod 0600 ~/.gem/credentials
+            printf -- "---\n:rubygems_api_key: ${RUBYGEMS_AUTH_TOKEN}\n" > ~/.gem/credentials
             git config user.name dodonki1223
             git config user.email $RUBYGEMS_EMAIL
             bundle exec rake build
