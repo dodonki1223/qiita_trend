@@ -1,11 +1,11 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@1.1.2
+  ruby: circleci/ruby@2.1.0
   slack: circleci/slack@3.4.2
 executors:
   base:
     docker:
-      - image: cimg/ruby:2.7.0
+      - image: cimg/ruby:3.1.0
         auth:
           username: dodonki1223
           password: $DOCKERHUB_PASSWORD
