@@ -52,7 +52,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.62'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.39'
   spec.add_development_dependency 'simplecov', '~> 0.18'
-  spec.add_development_dependency 'vcr', '~> 5.1'
+  spec.add_development_dependency 'vcr', '~> 6.2.0'
   spec.add_development_dependency 'webmock', '~> 3.8'
   spec.add_development_dependency 'yard', '~> 0.9'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

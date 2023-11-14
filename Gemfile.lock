@@ -105,7 +105,7 @@ GEM
       unf_ext
     unf_ext (0.0.9)
     unicode-display_width (1.8.0)
-    vcr (5.1.0)
+    vcr (6.2.0)
     webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
