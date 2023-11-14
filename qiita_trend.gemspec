@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = QiitaTrend::VERSION
   spec.authors       = ['dodonki1223']
   spec.email         = ['make.an.effort.wish.come.true@gmail.com']
-  spec.required_ruby_version = '>= 2.6.5'
+  spec.required_ruby_version = '>= 3.1.0'
 
   spec.summary       = 'Easy to get trend for Qiita in 10 seconds'
   spec.description   = 'Easy to get trend for Qiita in 10 seconds'
@@ -49,10 +49,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rspec_junit_formatter', '~> 0.4'
-  spec.add_development_dependency 'rubocop', '~> 0.62'
-  spec.add_development_dependency 'rubocop-rspec', '~> 1.39'
+  spec.add_development_dependency 'rubocop', '~> 1.41.0'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.25.0'
   spec.add_development_dependency 'simplecov', '~> 0.18'
-  spec.add_development_dependency 'vcr', '~> 5.1'
+  spec.add_development_dependency 'vcr', '~> 6.2.0'
   spec.add_development_dependency 'webmock', '~> 3.8'
   spec.add_development_dependency 'yard', '~> 0.9'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

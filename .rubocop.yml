@@ -3,9 +3,11 @@ require: rubocop-rspec
 
 AllCops:
   # Rubyのバージョン指定
-  TargetRubyVersion: 2.6.5
+  TargetRubyVersion: 3.1.0
   # 新しい cop を許可
   NewCops: enable
+  # https://koic.hatenablog.com/entry/rubocop-1-5-has-been-released
+  SuggestExtensions: false
 
 # クラス名Moduleの説明をなしでもOKとする
 Style/Documentation:
