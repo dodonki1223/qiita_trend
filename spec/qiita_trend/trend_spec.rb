@@ -67,7 +67,7 @@ RSpec.describe QiitaTrend::Trend do
       it { is_expected.to include('title', 'user_name', 'user_image', 'likes_count', 'is_new_arrival', 'article', 'published_at', 'user_page') }
 
       it 'すべての値が取得できていること' do
-        first_items.each_key { |key| expect(first_items[key]).not_to eq nil }
+        first_items.each_key { |key| expect(first_items[key]).not_to be_nil }
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe QiitaTrend::Trend do
         first_items.each_key do |key|
           next if key == 'is_new_arrival'
 
-          expect(first_items[key]).not_to eq nil
+          expect(first_items[key]).not_to be_nil
         end
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe QiitaTrend::Trend do
       let(:trend) { personal_trend }
 
       it 'nilであること' do
-        expect(new_items).to eq nil
+        expect(new_items).to be_nil
       end
     end
   end

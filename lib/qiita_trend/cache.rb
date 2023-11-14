@@ -11,7 +11,7 @@ module QiitaTrend
     attr_reader :full_path
 
     # キャッシュファイルが格納されるデフォルトのディレクトリ
-    DEFAULT_CACHE_DIRECTORY = "#{Dir.home}/qiita_cache/"
+    DEFAULT_CACHE_DIRECTORY = "#{Dir.home}/qiita_cache/".freeze
 
     # コンストラクタ
     # Cacheクラスのインスタンスを返します
@@ -29,7 +29,7 @@ module QiitaTrend
     #
     # @param [String] content 書き込む内容
     def create_cache(content)
-      Dir.mkdir(@directory) unless Dir.exist?(@directory)
+      FileUtils.mkdir_p(@directory)
       File.open(@full_path, 'wb') do |file|
         file.print(content)
       end
@@ -40,7 +40,7 @@ module QiitaTrend
     #
     # @return [Object]
     def load_cache
-      File.open(@full_path, 'r', &:read)
+      File.read(@full_path, 'r', &:read)
     end
 
     # キャッシュファイルが存在するかどうかを判定します

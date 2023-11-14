@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = QiitaTrend::VERSION
   spec.authors       = ['dodonki1223']
   spec.email         = ['make.an.effort.wish.come.true@gmail.com']
-  spec.required_ruby_version = '>= 2.6.5'
+  spec.required_ruby_version = '>= 3.1.0'
 
   spec.summary       = 'Easy to get trend for Qiita in 10 seconds'
   spec.description   = 'Easy to get trend for Qiita in 10 seconds'
